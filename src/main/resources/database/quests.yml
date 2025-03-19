@@ -1,0 +1,8 @@
+quests:
+  '4a':
+    name: Harvest 10 Wheats
+    objective:
+      type: HARVEST
+      material: WHEAT
+      target_amount: 10
+      time_limit: 10

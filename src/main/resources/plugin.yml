@@ -1,0 +1,22 @@
+name: FarmQuest
+version: '1.0'
+main: org.nandayo.farmquest.FarmQuest
+api-version: '1.21'
+authors: [ desaxx ]
+commands:
+  farmquest:
+    aliases: fquest
+    usage: /<command>
+permissions:
+  farmquest.admin:
+    default: op
+    children:
+      farmquest.reload: true
+      farmquest.createregion: true
+      farmquest.farmmarker: true
+  farmquest.reload:
+    default: op
+  farmquest.createregion:
+    default: op
+  farmquest.farmmarker:
+    default: op
