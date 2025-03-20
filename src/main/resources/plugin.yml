@@ -14,9 +14,12 @@ permissions:
       farmquest.reload: true
       farmquest.createregion: true
       farmquest.farmmarker: true
+      farmquest.farmmanager: true
   farmquest.reload:
     default: op
   farmquest.createregion:
     default: op
   farmquest.farmmarker:
+    default: op
+  farmquest.farmmanager:
     default: op

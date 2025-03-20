@@ -1,8 +1,13 @@
 package org.nandayo.farmquest.model.player;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.KeyedBossBar;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -25,6 +30,9 @@ public class FarmPlayer {
     private final UUID uuid;
     private QuestProgress activeQuestProgress;
     private final Collection<Quest> completedQuests;
+
+    @Setter
+    private KeyedBossBar bossBar;
 
     public FarmPlayer(@NotNull UUID uuid, QuestProgress activeQuestProgress, Collection<Quest> completedQuests) {
         this.uuid = uuid;
@@ -82,6 +90,20 @@ public class FarmPlayer {
             this.completedQuests.add(this.activeQuestProgress.getQuest());
         }
         this.activeQuestProgress = null;
+    }
+
+    /**
+     * Get BossBar, create if not found.
+     * @return BossBar
+     */
+    @NotNull
+    public KeyedBossBar getBossBarOrCreate() {
+        if(this.bossBar == null) {
+            this.bossBar = Bukkit.createBossBar(new NamespacedKey(FarmQuest.getInstance(), "bossbar_" + uuid), "Loading", BarColor.BLUE, BarStyle.SOLID);
+            Player player = getOfflinePlayer().getPlayer();
+            if(player != null) this.bossBar.addPlayer(player);
+        }
+        return this.bossBar;
     }
 
 

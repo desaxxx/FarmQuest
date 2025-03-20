@@ -14,9 +14,11 @@ import org.nandayo.DAPI.HexUtil;
 import org.nandayo.DAPI.ItemCreator;
 import org.nandayo.DAPI.Util;
 import org.nandayo.farmquest.command.MainCommand;
-import org.nandayo.farmquest.listener.BukkitEvents;
+import org.nandayo.farmquest.listener.BukkitListener;
+import org.nandayo.farmquest.listener.FarmListener;
 import org.nandayo.farmquest.model.Point;
 import org.nandayo.farmquest.model.player.FarmPlayer;
+import org.nandayo.farmquest.service.BossBarRunnable;
 import org.nandayo.farmquest.service.registry.FarmRegistry;
 import org.nandayo.farmquest.service.registry.QuestRegistry;
 
@@ -32,6 +34,7 @@ public final class FarmQuest extends JavaPlugin {
     @Getter
     static private FarmQuest instance;
     public final Random random = new Random();
+    public BossBarRunnable bossBarRunnable;
     public QuestRegistry questRegistry;
     public FarmRegistry farmRegistry;
 
@@ -40,7 +43,8 @@ public final class FarmQuest extends JavaPlugin {
         instance = this;
 
         Objects.requireNonNull(getCommand("farmquest")).setExecutor(new MainCommand());
-        Bukkit.getPluginManager().registerEvents(new BukkitEvents(), this);
+        Bukkit.getPluginManager().registerEvents(new BukkitListener(), this);
+        Bukkit.getPluginManager().registerEvents(new FarmListener(), this);
 
         if(!getDataFolder().exists()) //noinspection ResultOfMethodCallIgnored
             getDataFolder().mkdirs();
@@ -48,11 +52,16 @@ public final class FarmQuest extends JavaPlugin {
         setupDAPI();
 
         doRegistry(true);
+
+        bossBarRunnable = new BossBarRunnable(this);
+        bossBarRunnable.start();
     }
 
     @Override
     public void onDisable() {
         closeRegistry();
+
+        bossBarRunnable.stop();
 
         instance = null;
     }
@@ -126,5 +135,28 @@ public final class FarmQuest extends JavaPlugin {
             tell(player, message);
         }
         tell(Bukkit.getConsoleSender(), message);
+    }
+
+    /**
+     * Get time format of "hh:mm:ss".
+     * @param time Seconds
+     * @return String
+     */
+    public String formatTime(int time) {
+        int sec = time;
+        int min = sec / 60;
+        int hour = min / 60;
+
+        sec %= 60;
+        min %= 60;
+        hour %= 24;
+
+        StringBuilder sb = new StringBuilder();
+        if(hour >= 10) sb.append(hour); else sb.append(0).append(hour);
+        sb.append(":");
+        if(min >= 10) sb.append(min); else sb.append(0).append(min);
+        sb.append(":");
+        if(sec >= 10) sb.append(sec); else sb.append(0).append(sec);
+        return sb.toString().trim();
     }
 }

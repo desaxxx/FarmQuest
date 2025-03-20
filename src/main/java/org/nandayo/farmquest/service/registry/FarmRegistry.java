@@ -7,10 +7,12 @@ import org.jetbrains.annotations.NotNull;
 import org.nandayo.DAPI.Util;
 import org.nandayo.farmquest.model.Farm;
 import org.nandayo.farmquest.model.FarmRegion;
+import org.nandayo.farmquest.model.quest.Quest;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class FarmRegistry implements Registry<Farm> {
 
@@ -35,19 +37,19 @@ public class FarmRegistry implements Registry<Farm> {
         if(farms == null) return;
         for(String id : farms.getKeys(false)) {
             FarmRegion region = FarmRegion.fromString(farms.getString(id + ".region",""));
+            Collection<Quest> quests = farms.getStringList(id + ".quests").stream().map(Quest::getQuest).toList();
 
-            new Farm(id, region).register();
+            new Farm(id, region, quests).register();
         }
     }
 
     @Override
     public void save() {
-        FileConfiguration config = new YamlConfiguration();
+        FileConfiguration config = YamlConfiguration.loadConfiguration(file());
         for(Farm farm : new ArrayList<>(Farm.getRegisteredFarms())) {
             String namespace = "farms." + farm.getId();
             config.set(namespace + ".region", farm.getRegion().parseString());
-
-            farm.unregister();
+            config.set(namespace + ".quests", farm.getQuests().stream().map(Quest::getId).toList());
         }
         try {
             config.save(file());

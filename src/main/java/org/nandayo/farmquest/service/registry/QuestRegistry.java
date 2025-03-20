@@ -52,7 +52,7 @@ public class QuestRegistry implements Registry<Quest> {
 
     @Override
     public void save() {
-        FileConfiguration config = new YamlConfiguration();
+        FileConfiguration config = YamlConfiguration.loadConfiguration(file());
         for(Quest quest : new ArrayList<>(Quest.getRegisteredQuests())) {
             String namespace = "quests." + quest.getId();
             config.set(namespace + ".name", quest.getName());
@@ -60,8 +60,6 @@ public class QuestRegistry implements Registry<Quest> {
             config.set(namespace + ".objective.material", quest.getObjective().getMaterial().toString());
             config.set(namespace + ".objective.target_amount", quest.getObjective().getTargetAmount());
             config.set(namespace + ".objective.time_limit", quest.getObjective().getTimeLimit());
-
-            quest.unregister();
         }
         try {
             config.save(file());

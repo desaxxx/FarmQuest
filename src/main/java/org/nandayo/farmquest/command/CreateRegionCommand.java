@@ -35,6 +35,7 @@ public class CreateRegionCommand extends SubCommand {
         Farm farm = new Farm(region);
         farm.register();
         plugin.tell(player, String.format("{SUCCESS}Farm was created with id %s", farm.getId()));
+        plugin.farmRegistry.save();
         return true;
     }
 }

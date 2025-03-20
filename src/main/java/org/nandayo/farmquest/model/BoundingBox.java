@@ -31,9 +31,9 @@ public abstract class BoundingBox {
     }
 
     public boolean isInside(@NotNull Point point) {
-        return (point.getX() > minPoint.getX() && point.getX() < maxPoint.getX())
-                && (point.getY() > minPoint.getY() && point.getY() < maxPoint.getY())
-                && (point.getZ() > minPoint.getZ() && point.getZ() < maxPoint.getZ());
+        return (point.getX() >= minPoint.getX() && point.getX() <= maxPoint.getX())
+                && (point.getY() >= minPoint.getY() && point.getY() <= maxPoint.getY())
+                && (point.getZ() >= minPoint.getZ() && point.getZ() <= maxPoint.getZ());
     }
 
     public boolean isInside(@NotNull Location location) {

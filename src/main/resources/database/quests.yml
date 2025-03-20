@@ -1,8 +1,22 @@
 quests:
   '4a':
-    name: Harvest 10 Wheats
+    name: Harvest 27 Wheats
     objective:
       type: HARVEST
       material: WHEAT
-      target_amount: 10
+      target_amount: 27
       time_limit: 10
+  'ml':
+    name: Plant 27 Potatoes
+    objective:
+      type: PLANT
+      material: POTATOES
+      target_amount: 27
+      time_limit: 10
+  'pz':
+    name: Deliver 27 Carrots
+    objective:
+      type: DELIVER
+      material: CARROT
+      target_amount: 27
+      time_limit: 15
