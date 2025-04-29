@@ -3,7 +3,7 @@ settings:
   AUTO_PLANT: true
   # Auto remove the crops that was planted on a quest.
   AUTO_REMOVE: true
-  # Protect farmlands from fading to dirt via jumps.
+  # Protect farmlands from fading to dirt while jumping.
   PROTECT_FARMLAND: true
   # Protect farm regions from block-break and block-place unless the player has a quest on it.
   PROTECT_FARM_REGION: true

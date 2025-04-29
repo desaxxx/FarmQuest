@@ -29,7 +29,6 @@ public class CreateRegionCommand extends SubCommand {
             plugin.tell(player, "{WARN}You have missing selection points.");
             return true;
         }
-
         String id = Util.generateRandomLowerCaseString(8);
         if(args.length >= 2) {
             if(!args[1].matches("[a-z0-9]{8}")) {
@@ -38,6 +37,10 @@ public class CreateRegionCommand extends SubCommand {
             }else {
                 id = args[1];
             }
+        }
+        if(Farm.getFarm(id) != null) {
+            plugin.tell(player, "{WARN}Farm with id '" + id + "' already exists.");
+            return true;
         }
 
         FarmRegion region = new FarmRegion(points[0], points[1], player.getWorld().getName());
