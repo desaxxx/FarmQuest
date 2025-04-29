@@ -5,12 +5,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-import org.nandayo.DAPI.ItemCreator;
-import org.nandayo.DAPI.guimanager.Button;
-import org.nandayo.DAPI.guimanager.Menu;
+import org.nandayo.dapi.ItemCreator;
+import org.nandayo.dapi.guimanager.Button;
+import org.nandayo.dapi.guimanager.Menu;
 import org.nandayo.farmquest.FarmQuest;
-import org.nandayo.farmquest.model.Farm;
-import org.nandayo.farmquest.model.quest.Quest;
+import org.nandayo.farmquest.model.farm.Farm;
 
 import java.util.List;
 import java.util.Objects;
@@ -60,9 +59,10 @@ public class FarmEditorMenu extends Menu {
 
                 // Adding
                 if(clickType == ClickType.LEFT) {
-                    new QuestListMenu(plugin).open(player,
+                    new QuestListMenu().open(player,
                             (quest) -> {
                                 if(farm.linkQuest(quest)) {
+                                    plugin.farmRegistry.save();
                                     plugin.tell(player, String.format("{SUCCESS}Quest has been linked to Farm '%s'.", farm.getId()));
                                 } else {
                                     plugin.tell(player, String.format("{WARN}Quest is already linked to Farm '%s'.", farm.getId()));
@@ -72,9 +72,10 @@ public class FarmEditorMenu extends Menu {
                 }
                 // Removing
                 else if(clickType == ClickType.RIGHT) {
-                    new QuestListMenu(plugin).open(player,
+                    new QuestListMenu().open(player,
                             (quest) -> {
                                 if(farm.unlinkQuest(quest)) {
+                                    plugin.farmRegistry.save();
                                     plugin.tell(player, String.format("{SUCCESS}Quest has been unlinked from Farm '%s'.", farm.getId()));
                                 }else {
                                     plugin.tell(player, String.format("{WARN}Quest is already not linked to Farm '%s'.", farm.getId()));

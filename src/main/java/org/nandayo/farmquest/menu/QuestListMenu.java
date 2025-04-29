@@ -5,33 +5,30 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-import org.nandayo.DAPI.ItemCreator;
-import org.nandayo.DAPI.guimanager.Button;
-import org.nandayo.DAPI.guimanager.Menu;
-import org.nandayo.farmquest.FarmQuest;
+import org.nandayo.dapi.ItemCreator;
+import org.nandayo.dapi.guimanager.Button;
+import org.nandayo.dapi.guimanager.Menu;
 import org.nandayo.farmquest.model.quest.Quest;
 
-import java.util.ArrayList;
 import java.util.function.Consumer;
 
 public class QuestListMenu extends Menu {
 
-    private final FarmQuest plugin;
-    public QuestListMenu(@NotNull FarmQuest plugin) {
-        this.plugin = plugin;
+    public QuestListMenu() {
     }
 
     public void open(@NotNull Player player, @NotNull Consumer<Quest> consumer) {
         this.createInventory(54, "&8Quest List | Choose One");
 
         int slot = 0;
-        for(Quest quest : new ArrayList<>(Quest.getRegisteredQuests())) {
+        for(Quest quest : Quest.getRegisteredQuests()) {
             this.addButton(new Button(slot++) {
                 @Override
                 public ItemStack getItem() {
                     return ItemCreator.of(Material.PAPER)
                             .name("{TITLE}Quest {WHITE} '" + quest.getId() + "'")
-                            .lore("{TITLE}Name: {WHITE}'" + quest.getName() + "'")
+                            .lore("{TITLE}Name: {WHITE}" + quest.getName(),
+                                    "{TITLE}Description: {WHITE}" + quest.getDescription())
                             .get();
                 }
 

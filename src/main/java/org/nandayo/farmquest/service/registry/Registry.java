@@ -1,25 +1,33 @@
 package org.nandayo.farmquest.service.registry;
 
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.nandayo.farmquest.FarmQuest;
 
 import java.io.File;
 
-public interface Registry<T> {
+@Getter
+public abstract class Registry {
 
-    @NotNull String getFilePath();
+    public Registry(@NotNull FarmQuest plugin) {
+        loadFile(plugin);
+    }
 
-    default @NotNull File file() {
+    private File file;
+
+    abstract public @NotNull String getFilePath();
+
+    public void loadFile(@NotNull FarmQuest plugin) {
         String path = getFilePath();
-        File file = new File(FarmQuest.getInstance().getDataFolder(), path);
+        File file = new File(plugin.getDataFolder(), path);
         if (!file.exists()) {
             //noinspection ResultOfMethodCallIgnored
             file.getParentFile().mkdirs();
-            FarmQuest.getInstance().saveResource(path, false);
+            plugin.saveResource(path, false);
         }
-        return file;
+        this.file = file;
     }
 
-    void load();
-    void save();
+    abstract void load();
+    abstract void save();
 }

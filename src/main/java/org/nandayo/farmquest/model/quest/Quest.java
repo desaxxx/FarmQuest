@@ -1,31 +1,36 @@
 package org.nandayo.farmquest.model.quest;
 
 import lombok.Getter;
+import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.nandayo.DAPI.Util;
-import org.nandayo.farmquest.util.StringGenerator;
+import org.nandayo.dapi.Util;
+import org.nandayo.farmquest.enumeration.FarmBlock;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 
 @Getter
-public class Quest {
+public class Quest extends Objective {
 
     // objective
     // timer
-    private final String id;
-    private final Objective objective;
+    private final @NotNull String id;
     private final String name;
+    private final String description;
 
-    public Quest(@NotNull String id, @NotNull Objective objective, @NotNull String name) {
+    public Quest(@NotNull String id, @NotNull String name, @NotNull String description,
+                 @NotNull ObjectiveType type, @NotNull FarmBlock farmBlock, int targetAmount,
+                 long timeLimit, @NotNull Collection<Reward> rewards) {
+        super(type, farmBlock, targetAmount, timeLimit, rewards);
         this.id = id;
-        this.objective = objective;
         this.name = name;
+        this.description = description;
     }
-    public Quest(@NotNull Objective objective, @NotNull String name) {
-        this(StringGenerator.getRandomString(2), objective,name);
+    public Quest(@NotNull String name, @NotNull String description,
+                 @NotNull ObjectiveType type, @NotNull FarmBlock farmBlock, int targetAmount, long timeLimit, @NotNull Collection<Reward> rewards) {
+        this(Util.generateRandomLowerCaseString(2), name, description, type, farmBlock, targetAmount, timeLimit,  rewards);
     }
 
     public void register() {
@@ -34,9 +39,6 @@ public class Quest {
         }else {
             Util.log(String.format("{WARN}Quest with id '%s' was already registered.", id));
         }
-    }
-    public void unregister() {
-        registeredQuests.remove(this);
     }
 
     public QuestProgress freshProgress() {

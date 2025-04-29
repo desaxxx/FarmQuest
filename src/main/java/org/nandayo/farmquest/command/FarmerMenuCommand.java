@@ -6,20 +6,16 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.nandayo.dapi.command.SubCommand;
 import org.nandayo.farmquest.FarmQuest;
-import org.nandayo.farmquest.menu.FarmEditorMenu;
+import org.nandayo.farmquest.menu.FarmerMenu;
 import org.nandayo.farmquest.model.farm.Farm;
 
-public class FarmManagerCommand extends SubCommand {
+public class FarmerMenuCommand extends SubCommand {
 
     @Override
     public boolean onSubCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, String[] args) {
         FarmQuest plugin = FarmQuest.getInstance();
-        if(!sender.hasPermission("farmquest.command.farmmanager")) {
-            plugin.tell(sender, "{WARN}You don't have permission to use this command.");
-            return true;
-        }
         if(!(sender instanceof Player player)) {
-            plugin.tell(sender, "{WARN}Only players can execute this command");
+            plugin.tell(sender, "{WARN}Only players can use this command.");
             return true;
         }
         if(args.length < 2) {
@@ -30,9 +26,8 @@ public class FarmManagerCommand extends SubCommand {
             plugin.tell(player, "{WARN}Farms are empty or not loaded yet.");
             return true;
         }
-
         Farm farm = Farm.getFarmOrThrow(args[1]);
-        new FarmEditorMenu(plugin).open(player, farm);
+        new FarmerMenu(plugin, farm).open(player);
         return true;
     }
 }

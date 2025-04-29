@@ -4,19 +4,21 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
-import org.nandayo.DAPI.Util;
-import org.nandayo.farmquest.model.Farm;
-import org.nandayo.farmquest.model.FarmRegion;
+import org.nandayo.dapi.Util;
+import org.nandayo.dapi.model.BoundingBox;
+import org.nandayo.farmquest.FarmQuest;
+import org.nandayo.farmquest.model.farm.Farm;
+import org.nandayo.farmquest.model.farm.FarmRegion;
 import org.nandayo.farmquest.model.quest.Quest;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
 
-public class FarmRegistry implements Registry<Farm> {
+public class FarmRegistry extends Registry {
 
-    private File file;
+    public FarmRegistry(@NotNull FarmQuest plugin) {
+        super(plugin);
+    }
 
     @Override
     public @NotNull String getFilePath() {
@@ -24,35 +26,31 @@ public class FarmRegistry implements Registry<Farm> {
     }
 
     @Override
-    public @NotNull File file() {
-        if (file == null) file = Registry.super.file();
-        return file;
-    }
-
-    @Override
     public void load() {
         Farm.getRegisteredFarms().clear();
-        FileConfiguration config = YamlConfiguration.loadConfiguration(file());
+        FileConfiguration config = YamlConfiguration.loadConfiguration(getFile());
         ConfigurationSection farms = config.getConfigurationSection("farms");
         if(farms == null) return;
         for(String id : farms.getKeys(false)) {
-            FarmRegion region = FarmRegion.fromString(farms.getString(id + ".region",""));
-            Collection<Quest> quests = farms.getStringList(id + ".quests").stream().map(Quest::getQuest).toList();
+            BoundingBox box = BoundingBox.fromString(farms.getString(id + ".region",""));
+            FarmRegion region = new FarmRegion(box.getMinPoint(), box.getMaxPoint(), box.getWorldName());
+            Collection<Quest> quests = farms.getStringList(id + ".quests").stream().filter(Objects::nonNull).map(Quest::getQuest).filter(Objects::nonNull).toList();
 
             new Farm(id, region, quests).register();
         }
+        Util.log("Loaded " + Farm.getRegisteredFarms().size() + " farms.");
     }
 
     @Override
     public void save() {
-        FileConfiguration config = YamlConfiguration.loadConfiguration(file());
-        for(Farm farm : new ArrayList<>(Farm.getRegisteredFarms())) {
+        FileConfiguration config = YamlConfiguration.loadConfiguration(getFile());
+        for(Farm farm : Farm.getRegisteredFarms()) {
             String namespace = "farms." + farm.getId();
             config.set(namespace + ".region", farm.getRegion().parseString());
-            config.set(namespace + ".quests", farm.getQuests().stream().map(Quest::getId).toList());
+            config.set(namespace + ".quests", farm.getQuests().stream().filter(Objects::nonNull).map(Quest::getId).toList());
         }
         try {
-            config.save(file());
+            config.save(getFile());
         }catch (IOException e) {
             Util.log("{WARN}Couldn't save Farm configuration.");
             //noinspection CallToPrintStackTrace

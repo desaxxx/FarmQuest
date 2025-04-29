@@ -1,22 +1,26 @@
 package org.nandayo.farmquest.service.registry;
 
-import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
-import org.nandayo.DAPI.Util;
+import org.nandayo.dapi.Util;
+import org.nandayo.farmquest.FarmQuest;
+import org.nandayo.farmquest.enumeration.FarmBlock;
 import org.nandayo.farmquest.model.quest.Objective;
-import org.nandayo.farmquest.model.quest.ObjectiveType;
 import org.nandayo.farmquest.model.quest.Quest;
+import org.nandayo.farmquest.model.quest.Reward;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-public class QuestRegistry implements Registry<Quest> {
+public class QuestRegistry extends Registry {
 
-    private File file;
+    public QuestRegistry(@NotNull FarmQuest plugin) {
+        super(plugin);
+    }
 
     @Override
     public @NotNull String getFilePath() {
@@ -24,45 +28,52 @@ public class QuestRegistry implements Registry<Quest> {
     }
 
     @Override
-    public @NotNull File file() {
-        if(file == null) file = Registry.super.file();
-        return file;
-    }
-
-    @Override
     public void load() {
         Quest.getRegisteredQuests().clear();
-        FileConfiguration config = YamlConfiguration.loadConfiguration(file());
+        FileConfiguration config = YamlConfiguration.loadConfiguration(getFile());
         ConfigurationSection quests = config.getConfigurationSection("quests");
         if(quests == null) return;
         for(String id : quests.getKeys(false)) {
-            String name = quests.getString(id + ".name","Unknown");
+            String name = quests.getString(id + ".name", "Unknown");
+            String description = quests.getString(id + ".description","Unknown");
 
-            ObjectiveType type = ObjectiveType.get(quests.getString(id + ".objective.type",""));
-            Material material = Material.getMaterial(quests.getString(id + ".objective.material",""));
+            Objective.ObjectiveType type = Objective.ObjectiveType.get(quests.getString(id + ".objective.type",""));
+            FarmBlock farmBlock = FarmBlock.get(quests.getString(id + ".objective.farm_block",""));
             int targetAmount = quests.getInt(id + ".objective.target_amount", 0);
             long timeLimit = quests.getLong(id + ".objective.time_limit", 0);
-            if(type == null || material == null) continue;
+            if(type == null || farmBlock == null) continue;
 
-            Objective objective = new Objective(type, material, targetAmount, timeLimit);
-            new Quest(id, objective, name).register();
+            Collection<Reward> rewards = new ArrayList<>();
+            ConfigurationSection rewardSection = quests.getConfigurationSection(id + ".rewards");
+            if(rewardSection != null) {
+                for(String rewardKey : rewardSection.getKeys(false)) {
+                    Reward.RewardType rewardType = Reward.RewardType.get(rewardKey);
+                    if(rewardType == null) continue;
+                    List<String> run = rewardSection.getStringList(rewardKey);
 
+                    rewards.add(new Reward(rewardType, run));
+                }
+            }
+
+            new Quest(id, name, description, type, farmBlock, targetAmount, timeLimit, rewards).register();
         }
+        Util.log("Loaded " + Quest.getRegisteredQuests().size() + " quests.");
     }
 
     @Override
     public void save() {
-        FileConfiguration config = YamlConfiguration.loadConfiguration(file());
-        for(Quest quest : new ArrayList<>(Quest.getRegisteredQuests())) {
+        FileConfiguration config = YamlConfiguration.loadConfiguration(getFile());
+        for(Quest quest : Quest.getRegisteredQuests()) {
             String namespace = "quests." + quest.getId();
             config.set(namespace + ".name", quest.getName());
-            config.set(namespace + ".objective.type", quest.getObjective().getType().toString());
-            config.set(namespace + ".objective.material", quest.getObjective().getMaterial().toString());
-            config.set(namespace + ".objective.target_amount", quest.getObjective().getTargetAmount());
-            config.set(namespace + ".objective.time_limit", quest.getObjective().getTimeLimit());
+            config.set(namespace + ".description", quest.getDescription());
+            config.set(namespace + ".objective.type", quest.getType().toString());
+            config.set(namespace + ".objective.farm_block", quest.getFarmBlock().toString());
+            config.set(namespace + ".objective.target_amount", quest.getTargetAmount());
+            config.set(namespace + ".objective.time_limit", quest.getTimeLimit());
         }
         try {
-            config.save(file());
+            config.save(getFile());
         }catch (IOException e) {
             Util.log("{WARN}Couldn't save Quests configuration.");
             //noinspection CallToPrintStackTrace

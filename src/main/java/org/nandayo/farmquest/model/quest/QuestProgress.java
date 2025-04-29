@@ -28,7 +28,7 @@ public class QuestProgress {
      */
     public boolean plus(int amount) {
         this.progress += Math.max(0, amount);
-        return this.progress >= quest.getObjective().getTargetAmount();
+        return this.progress >= quest.getTargetAmount();
     }
 
     /**
@@ -46,7 +46,7 @@ public class QuestProgress {
      */
     public boolean minus(int amount) {
         this.progress -= Math.max(0, amount);
-        return this.progress >= quest.getObjective().getTargetAmount();
+        return this.progress >= quest.getTargetAmount();
     }
 
     /**
@@ -66,8 +66,8 @@ public class QuestProgress {
         tickingTask = new BukkitRunnable() {
             @Override
             public void run() {
-                long elapsed = Instant.now().getEpochSecond() - startTime;
-                if(elapsed > quest.getObjective().getTimeLimit()) {
+                long elapsed = getElapsed();
+                if(elapsed > quest.getTimeLimit()) {
                     cancel();
                     callbackOnTimeLimit.run();
                     tickingTask = null;
@@ -75,6 +75,10 @@ public class QuestProgress {
             }
         };
         tickingTask.runTaskTimer(FarmQuest.getInstance(), 0, 20L);
+    }
+
+    public long getElapsed() {
+        return Instant.now().getEpochSecond() - startTime;
     }
 
     /**

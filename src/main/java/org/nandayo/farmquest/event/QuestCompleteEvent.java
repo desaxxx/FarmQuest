@@ -9,13 +9,14 @@ import org.nandayo.farmquest.model.Farmer;
 import org.nandayo.farmquest.model.quest.Quest;
 
 @Getter
-public class QuestProgressEvent extends Event {
+public class QuestCompleteEvent extends Event {
 
     private static final HandlerList HANDLERS = new HandlerList();
 
     public static HandlerList getHandlerList() {
         return HANDLERS;
     }
+
     public @NotNull HandlerList getHandlers() {
         return HANDLERS;
     }
@@ -23,12 +24,10 @@ public class QuestProgressEvent extends Event {
     private final Farmer farmer;
     private final Quest quest;
     private final Farm farm;
-    private final int progress;
 
-    public QuestProgressEvent(@NotNull Farmer farmer, @NotNull Quest quest, @NotNull Farm farm, int progress) {
+    public QuestCompleteEvent(@NotNull Farmer farmer, @NotNull Quest quest, @NotNull Farm farm) {
         this.farmer = farmer;
         this.quest = quest;
         this.farm = farm;
-        this.progress = progress;
     }
 }
