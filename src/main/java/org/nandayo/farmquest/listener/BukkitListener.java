@@ -148,7 +148,7 @@ public class BukkitListener implements Listener {
             blockDataHolder = new BlockDataHolder(block);
         }
 
-        if(progress > 0) {
+        if(progress > 0 && objectiveType == Objective.ObjectiveType.HARVEST) { // No progress in delivery objective.
             final int finalProgress = progress;
             Bukkit.getScheduler().runTask(FarmQuest.getInstance(), () ->
                     Bukkit.getPluginManager().callEvent(new QuestProgressEvent(farmer, questProgress.getQuest(), farm, finalProgress)));

@@ -1,3 +1,5 @@
+update_check: true
+#
 settings:
   # Auto plant the crops that was harvested on a quest.
   AUTO_PLANT: true

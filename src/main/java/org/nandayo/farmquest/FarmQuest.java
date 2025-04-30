@@ -28,6 +28,7 @@ import org.nandayo.farmquest.service.registry.FarmRegistry;
 import org.nandayo.farmquest.service.registry.QuestRegistry;
 import org.nandayo.farmquest.service.registry.ConfigRegistry;
 import org.nandayo.farmquest.service.registry.ToolRegistry;
+import org.nandayo.farmquest.util.UpdateChecker;
 import org.nandayo.farmquest.util.Wrapper;
 
 import java.util.*;
@@ -69,6 +70,7 @@ public final class FarmQuest extends JavaPlugin {
         bossBarManager.start();
 
         new Metrics(this, 25233);
+        new UpdateChecker(this, 124581).inform();
     }
 
     @Override
