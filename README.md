@@ -42,8 +42,8 @@ No dependence.
 4- **Enjoy** the quests by collecting rewards! :>
 
 ## Contact
-Contact: Found a bug or have a suggestion? Contact me on Discord: desaxx or open an issue on the GitHub Page.
-Discord: Join Discord Server to get support configuring the plugin.
+**Contact**: Found a bug or have a suggestion? Contact me on Discord: **desaxx** or open an issue on the GitHub Page.\
+**Discord**: Join [Discord Server](https://discord.gg/dN6RUzZGgJ) to get support configuring the plugin.
 
 ## Showcase
 [#1](https://www.youtube.com/watch?v=VvhCBQ1INqI)\
