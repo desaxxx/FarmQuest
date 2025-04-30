@@ -4,6 +4,9 @@ FarmQuest is a lightweight farming quest plugin for servers. Give your players p
 ## Download Links
 - [Spigot](https://www.spigotmc.org/resources/farmquest.124581/)
 
+## Supported Languages
+- English
+
 ## Features
 - Create your quests easily from plugin configurations.
 - Custom farming quests with harvest, plant, and deliver.
