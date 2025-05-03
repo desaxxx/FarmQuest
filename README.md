@@ -51,6 +51,6 @@ No dependence.
 **Discord**: Join [Discord Server](https://discord.gg/dN6RUzZGgJ) to get support configuring the plugin.
 
 ## Showcase
-[#1](https://www.youtube.com/watch?v=VvhCBQ1INqI)\
-[#2](https://www.youtube.com/watch?v=cCWJu-kAOeo)\
-[#3](https://www.youtube.com/watch?v=ww2KaOinaBA)
+[Youtube Link #1](https://www.youtube.com/watch?v=VvhCBQ1INqI)\
+[Youtube Link #2](https://www.youtube.com/watch?v=cCWJu-kAOeo)\
+[Youtube Link #3](https://www.youtube.com/watch?v=ww2KaOinaBA)
