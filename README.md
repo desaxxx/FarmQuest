@@ -8,6 +8,9 @@ FarmQuest is a lightweight farming quest plugin for servers. Give your players p
 
 ## Supported Languages
 - English
+- Español
+- Deutsch
+- Türkçe
 
 ## Features
 - Create your quests easily from plugin configurations.
@@ -27,6 +30,8 @@ Command of plugin is "farmquest" or "fquest" for short.
 - /fquest deliver <farmId> — Deliver materials of quest with delivery type.
 - /fquest farmmarker — Get the farm marker item which helps selecting farm region points. (Perm: farmquest.command.farmmarker)
 - /fquest createregion [id] — Create a farm and its region after selecting points. (Perm: farmquest.command.createregion)
+- /fquest resizeregion <farmId> — Resize the region of a farm. (Perm: farmquest.command.resizeregion)
+- /fquest deleteregion <farmId> — Delete the region of a farm. (Perm: farmquest.command.deleteregion)
 - /fquest reload — Reload plugin configurations. (Perm: farmquest.command.reload)
 - /fquest farmmanager <farmId> — Open farm manager menu. (Perm: farmquest.command.farmmanager)
 - /fquest items — Open farm tools menu. (Perm: farmquest.command.items)
@@ -53,4 +58,5 @@ No dependence.
 ## Showcase
 [Youtube Link #1](https://www.youtube.com/watch?v=VvhCBQ1INqI)\
 [Youtube Link #2](https://www.youtube.com/watch?v=cCWJu-kAOeo)\
-[Youtube Link #3](https://www.youtube.com/watch?v=ww2KaOinaBA)
+[Youtube Link #3](https://www.youtube.com/watch?v=ww2KaOinaBA)\
+[Youtube Link #4](https://www.youtube.com/watch?v=CYt-wsuMNIM)
