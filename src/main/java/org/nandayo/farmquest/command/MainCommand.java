@@ -53,7 +53,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
             }
             return completions;
         }
-        else if(args.length == 2 && Arrays.asList("farmer","farmmanager","resizeregion","deleteregion").contains(args[0])) {
+        else if(args.length == 2 && Arrays.asList("farmer","deliver","farmmanager","resizeregion","deleteregion").contains(args[0])) {
             return Farm.getRegisteredFarms().stream().filter(Objects::nonNull).map(Farm::getId).toList();
         }
         else if(args.length == 2 && args[0].equalsIgnoreCase("removecompleted")) {
