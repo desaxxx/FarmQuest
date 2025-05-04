@@ -1,7 +1,7 @@
 name: FarmQuest
 version: '${project.version}'
 main: org.nandayo.farmquest.FarmQuest
-api-version: '1.20'
+api-version: '1.17'
 authors: [ desaxx ]
 commands:
   farmquest:
@@ -11,24 +11,9 @@ permissions:
   farmquest.admin:
     default: op
     children:
-      farmquest.command.reload: true
-      farmquest.command.createregion: true
-      farmquest.command.farmmarker: true
-      farmquest.command.farmmanager: true
-      farmquest.command.items: true
-      farmquest.command.removecompleted: true
+      farmquest.command.*: true
       farmquest.protect.bypass: true
-  farmquest.command.reload:
-    default: op
-  farmquest.command.createregion:
-    default: op
-  farmquest.command.farmmarker:
-    default: op
-  farmquest.command.farmmanager:
-    default: op
-  farmquest.command.items:
-    default: op
-  farmquest.command.removecompleted:
+  farmquest.command.*:
     default: op
   farmquest.protect.bypass:
     default: op

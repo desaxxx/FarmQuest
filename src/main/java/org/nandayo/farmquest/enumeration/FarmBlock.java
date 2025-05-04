@@ -4,9 +4,11 @@ import lombok.Getter;
 import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.nandayo.dapi.object.DMaterial;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Getter
 public enum FarmBlock {
@@ -20,18 +22,24 @@ public enum FarmBlock {
     SWEET_BERRY_BUSH (Material.SWEET_BERRIES, Material.SWEET_BERRIES, Material.SWEET_BERRY_BUSH),
     SUGAR_CANE(Material.SUGAR_CANE, Material.SUGAR_CANE, Material.SUGAR_CANE),
     COCOA (Material.COCOA_BEANS, Material.COCOA_BEANS, Material.COCOA),
-    PITCHER_CROP (Material.PITCHER_POD, Material.PITCHER_PLANT, Material.PITCHER_CROP),
+    PITCHER_CROP (DMaterial.PITCHER_POD, DMaterial.PITCHER_PLANT, DMaterial.PITCHER_CROP), // since 1.20
     BAMBOO (Material.BAMBOO, Material.BAMBOO, Material.BAMBOO, Material.BAMBOO_SAPLING),
     MELON (Material.MELON_SEEDS, Material.MELON_SLICE, Material.MELON),
     BEETROOTS (Material.BEETROOT_SEEDS, Material.BEETROOT, Material.BEETROOTS),
     PUMPKIN (Material.PUMPKIN_SEEDS, Material.PUMPKIN, Material.PUMPKIN),
-    TORCHFLOWER_SEEDS (Material.TORCHFLOWER_SEEDS, Material.TORCHFLOWER, Material.TORCHFLOWER),
+    TORCHFLOWER_SEEDS (DMaterial.TORCHFLOWER_SEEDS, DMaterial.TORCHFLOWER, DMaterial.TORCHFLOWER), // since 1.19.4
     ;
 
     FarmBlock(@NotNull Material seedMaterial, @NotNull Material cropMaterial, Material... blockMaterials) {
         this.seedMaterial = seedMaterial;
         this.cropMaterial = cropMaterial;
         this.blockMaterials = Arrays.asList(blockMaterials);
+    }
+
+    FarmBlock(@NotNull DMaterial seedMaterial, @NotNull DMaterial cropMaterial, DMaterial... blockMaterials) {
+        this.seedMaterial = seedMaterial.parseMaterial() == null ? Material.AIR : seedMaterial.parseMaterial();
+        this.cropMaterial = cropMaterial.parseMaterial() == null ? Material.AIR : cropMaterial.parseMaterial();
+        this.blockMaterials = Arrays.stream(blockMaterials).map(m -> m.parseMaterial() == null ? Material.AIR : m.parseMaterial()).toList();
     }
 
     private final @NotNull Material seedMaterial;

@@ -37,7 +37,7 @@ public class UpdateChecker {
     }
 
     public void inform() {
-        FileConfiguration config = YamlConfiguration.loadConfiguration(plugin.configRegistry.getFile());
+        FileConfiguration config = plugin.configRegistry.getConfig();
         if(!config.getBoolean("update_check", true)) return;
 
         this.getVersion(version -> {

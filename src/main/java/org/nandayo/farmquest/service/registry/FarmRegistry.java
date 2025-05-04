@@ -44,6 +44,7 @@ public class FarmRegistry extends Registry {
     @Override
     public void save() {
         FileConfiguration config = YamlConfiguration.loadConfiguration(getFile());
+        config.set("farms", null);
         for(Farm farm : Farm.getRegisteredFarms()) {
             String namespace = "farms." + farm.getId();
             config.set(namespace + ".region", farm.getRegion().parseString());

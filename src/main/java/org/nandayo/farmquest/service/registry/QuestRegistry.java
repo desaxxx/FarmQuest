@@ -41,14 +41,24 @@ public class QuestRegistry extends Registry {
             FarmBlock farmBlock = FarmBlock.get(quests.getString(id + ".objective.farm_block",""));
             int targetAmount = quests.getInt(id + ".objective.target_amount", 0);
             long timeLimit = quests.getLong(id + ".objective.time_limit", 0);
-            if(type == null || farmBlock == null) continue;
+            if(type == null) {
+                Util.log("{WARN}ObjectiveType for Quest '" + id + "' is null.");
+                continue;
+            }
+            if(farmBlock == null) {
+                Util.log("{WARN}FarmBlock for Quest '" + id + "' is null.");
+                continue;
+            }
 
             Collection<Reward> rewards = new ArrayList<>();
             ConfigurationSection rewardSection = quests.getConfigurationSection(id + ".rewards");
             if(rewardSection != null) {
                 for(String rewardKey : rewardSection.getKeys(false)) {
                     Reward.RewardType rewardType = Reward.RewardType.get(rewardKey);
-                    if(rewardType == null) continue;
+                    if(rewardType == null) {
+                        Util.log("{WARN}RewardType for Quest '" + id + "' is null.");
+                        continue;
+                    }
                     List<String> run = rewardSection.getStringList(rewardKey);
 
                     rewards.add(new Reward(rewardType, run));
@@ -63,6 +73,7 @@ public class QuestRegistry extends Registry {
     @Override
     public void save() {
         FileConfiguration config = YamlConfiguration.loadConfiguration(getFile());
+        config.set("quests", null);
         for(Quest quest : Quest.getRegisteredQuests()) {
             String namespace = "quests." + quest.getId();
             config.set(namespace + ".name", quest.getName());

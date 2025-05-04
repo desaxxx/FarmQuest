@@ -28,14 +28,16 @@ public class Wrapper {
             major = Integer.parseInt(ver[1]);
         } catch (NumberFormatException ignored) {}
         int minor = 0;
-        try {
-            minor = Integer.parseInt(ver[2]);
-        } catch (NumberFormatException ignored) {}
+        if(ver.length >= 3) {
+            try {
+                minor = Integer.parseInt(ver[2]);
+            } catch (NumberFormatException ignored) {}
+        }
 
         int version = major * 10 + minor;
-        if(version < 194) {
+        if(version < 170) {
             Util.log(String.format("&cYou are using an unsupported server version '%s'!", String.join(".", ver)),
-                    "&cPlease use v1.19.4 or newer.");
+                    "&cPlease use v1.17 or newer.");
             Bukkit.getPluginManager().disablePlugin(plugin);
         }
         return version;

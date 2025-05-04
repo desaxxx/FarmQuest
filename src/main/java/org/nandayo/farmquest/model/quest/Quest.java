@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.nandayo.dapi.Util;
 import org.nandayo.farmquest.enumeration.FarmBlock;
+import org.nandayo.farmquest.model.farm.Farm;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -41,8 +42,18 @@ public class Quest extends Objective {
         }
     }
 
-    public QuestProgress freshProgress() {
-        return new QuestProgress(this, 0, Instant.now().getEpochSecond());
+    /**
+     * Create a fresh QuestProgress object from a Farm.<br>
+     * It will return <code>null</code> in case the quest isn't linked to the given Farm.
+     * @param farm Farm
+     * @return QuestProgress or null
+     */
+    @Nullable
+    public QuestProgress freshProgress(@NotNull Farm farm) {
+        if(!farm.getQuests().contains(this)) {
+            return null;
+        }
+        return new QuestProgress(this, farm, 0, Instant.now().getEpochSecond());
     }
 
 

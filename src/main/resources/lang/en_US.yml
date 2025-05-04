@@ -1,0 +1,108 @@
+# Placeholder names and key names should not be changed. You can edit other than these parts.
+# FarmQuest has its own colors. {TITLE}, {STAR}, {WHITE}, {WARN}, {SUCCESS}.
+#   You can also use your own colors. E.g. &a, <#000000>
+quest_complete: "{WHITE}You completed the Quest '{quest}'."
+win_farm_tool: "{SUCCESS}Gained a farm tool!"
+have_active_quest: "{WARN}You already have an active quest!"
+do_not_have_active_quest: "{WARN}You don't have an active quest."
+drop_quest: "{WHITE}Dropped the quest."
+quest_already_completed: "{WARN}You already completed this quest!"
+quest_is_not_linked_to_farm: "{WARN}This quest is not linked to Farm '{farm}'!"
+exceed_quest_time_limit: "{WARN}You exceed the quest time limit."
+pickup_quest: "{SUCCESS}Picked up quest '{quest}'."
+not_a_farmer_player: "{WARN}You are not a farmer player."
+not_a_farmer_player_other: "{WARN}Player '{player}' is not a farmer player."
+farms_empty: "{WARN}Farms are empty or not loaded yet."
+quest_does_not_belong_farm: "{WARN}Your quest does not belong to Farm '{farm}'"
+not_enough_materials: "{WARN}You don't have enough materials."
+quest_linked_to_farm: "{SUCCESS}Quest has been linked to Farm '{farm}'."
+quest_already_linked_to_farm: "{WARN}Quest is already linked to Farm '{farm}'."
+quest_unlink_from_farm: "{SUCCESS}Quest has been unlinked from Farm '{farm}'."
+quest_already_not_linked_to_farm: "{WARN}Quest is already not linked to Farm '{farm}'."
+get_farm_tool_from_menu: "{WARN}You got the FarmTool '{tool}'."
+select_1st_point: "{WHITE}You have selected 1st point. [{x},{y},{z}]"
+select_2nd_point: "{WHITE}You have selected 2nd point. [{x},{y},{z}]"
+farm_detected: "{WHITE}Farm detected: '{farm}'"
+farm_was_deleted: "{WARN}Farm of the quest that you currently have was deleted by an admin."
+quest_progress_bar: "{TITLE}{quest}{WHITE}: {SUCCESS}{progress} {WHITE}out of {STAR}{target} {WHITE}is done! [{WARN}{remained}{WHITE}]"
+#
+command:
+  only_players: "{WARN}Only players can use this command."
+  no_perm: "{WARN}You don't have permission to use this command."
+  player_not_found: "{WARN}Player '{player}' was not found!"
+  farm_not_found: "{WARN}Farm '{farm}' was not found!"
+  tool_not_found: "{WARN}Tool '{tool}' was not found!"
+  deliver:
+    quest_not_delivery: "{WARN}Your quest is not a delivery."
+  create_region:
+    missing_points: "{WARN}You have missing selection points."
+    invalid_id: "{WARN}You must enter an id that matches [a-z0-9]{8}."
+    already_exists: "{WARN}Farm with id '{id}' already exists."
+    success: "{SUCCESS}Farm was created with id '{id}'"
+  resize_region:
+    missing_points: "{WARN}You have missing selection points."
+    does_not_exist: "{WARN}Farm with id '{id}' doesn't exist."
+    success: "{SUCCESS}Farm '{id}' was resized."
+  delete_region:
+    does_not_exist: "{WARN}Farm with id '{id}' doesn't exist."
+    confirm_info: "{WARN}This action will lead to players dropping their current quests from this farm. Please confirm it with command '/farmquest deleteregion {farm} confirm'."
+    success: "{SUCCESS}Farm '{id}' was deleted!"
+  farm_marker:
+    get_marker: "{SUCCESS}You got the Farm Marker."
+  items:
+    open: "{SUCCESS}You opened items menu."
+  reload:
+    success: "{SUCCESS}Configurations have been reloaded!"
+  remove_completed:
+    not_completed: "{WARN}This player didn't complete the quest!"
+    success: "{SUCCESS}Removed the quest from completed quests of player '{player}'!"
+#
+menu:
+  farm_editor:
+    title: "&8Farm Editor ({WHITE}{farm}&8)"
+    region:
+      name: "{TITLE}Region: {WHITE}{region}"
+    linked_quests:
+      name: "{TITLE}&nLinked Quests"
+      lore:
+        - ""
+        - " {STAR}* {WHITE}{quest.%n}"
+        - ""
+        - "{WHITE}Left click to add a quest."
+        - "{WHITE}Right click to remove a quest."
+  farmer_menu:
+    title: "&8Farmer Menu"
+    pickup:
+      name: "{TITLE}Pickup a Quest"
+      lore:
+        - "{WHITE}Click to see quests!"
+    delivery:
+      name: "{TITLE}Deliver"
+      lore:
+        - "{WHITE}Click here to deliver materials!"
+    drop:
+      name: "{TITLE}Drop the Quest"
+      lore:
+        - "&cClick to drop!"
+    sub_quest_list:
+      title: "&8Quest List"
+      quest:
+        name: "{TITLE}Quest {WHITE} '{quest}'"
+        lore:
+          - " {STAR}* &7{quest_description}"
+          - ""
+          - "{WHITE}Click to pickup!"
+  items:
+    title: "&8FarmQuest Items"
+    tool_extra_lore:
+      - ""
+      - "{WHITE}Click to get!"
+  quest_list:
+    title: "&8Quest List | Choose One"
+    quest:
+      name: "{TITLE}Quest {WHITE} '{quest}'"
+      lore:
+        - "{TITLE}Name: {WHITE}{quest_name}"
+        - "{TITLE}Description: {WHITE}{quest_description}"
+
+lang_version: "0" # DO NOT CHANGE

@@ -1,0 +1,108 @@
+# Yer tutucu adları ve anahtar adları değiştirilmemeli. Diğer kısımları düzenleyebilirsiniz.
+# FarmQuest kendi renklerine sahiptir. {TITLE}, {STAR}, {WHITE}, {WARN}, {SUCCESS}.
+#   Ayrıca kendi renklerinizi de kullanabilirsiniz.  Örn. &a, <#000000>
+quest_complete: "{WHITE}Görev '{quest}'i tamamladın."
+win_farm_tool: "{SUCCESS}Çiftlik eşyası kazandın!"
+have_active_quest: "{WARN}Aktif bir göreve zaten sahipsin!"
+do_not_have_active_quest: "{WARN}Aktif bir göreve sahip değilsin."
+drop_quest: "{WHITE}Görev bırakıldı."
+quest_already_completed: "{WARN}Bu görevi zaten tamamlamışsın!"
+quest_is_not_linked_to_farm: "{WARN}Bu görev Çiftlik '{farm}'e tanımlı değil!"
+exceed_quest_time_limit: "{WARN}Görev tamamlama süresini aştın."
+pickup_quest: "{SUCCESS}Görev '{quest}'i aldın."
+not_a_farmer_player: "{WARN}Çiftlik oyuncusu değilsin."
+not_a_farmer_player_other: "{WARN}Oyuncu '{player}' çiftlik oyuncusu değil."
+farms_empty: "{WARN}Çiftlikler boş veya henüz yüklenmedi."
+quest_does_not_belong_farm: "{WARN}Görevin Çiftlik '{farm}'e ait değil."
+not_enough_materials: "{WARN}Yeterince materyale sahip değilsin."
+quest_linked_to_farm: "{SUCCESS}Görev Çiftlik '{farm}'e tanındı."
+quest_already_linked_to_farm: "{WARN}Görev zaten Çiftlik '{farm}'e tanımlı."
+quest_unlink_from_farm: "{SUCCESS}Görev Çiftlik '{farm}'den koparıldı."
+quest_already_not_linked_to_farm: "{WARN}Görev zaten Çiftlik '{farm}'a tanımlı değil."
+get_farm_tool_from_menu: "{WARN}Çiftlik Eşyası '{tool}' aldın."
+select_1st_point: "{WHITE}1'inci noktayı seçtin. [{x},{y},{z}]"
+select_2nd_point: "{WHITE}2'nci noktayı seçtin. [{x},{y},{z}]"
+farm_detected: "&7Çiftlik tespit edildi: '{farm}'"
+farm_was_deleted: "{WARN}Sahip olduğun aktif görevin çiftliği bir yetkili tarafından silindi."
+quest_progress_bar: "{TITLE}{quest}{WHITE}: {STAR}{target} {WHITE}'da {SUCCESS}{progress} {WHITE}tamamladın. [{WARN}{remained}{WHITE}]."
+#
+command:
+  only_players: "{WARN}Bu komutu yalnızca oyuncular kullanabilir."
+  no_perm: "{WARN}Bu komutu kullanmak için yetkin yok."
+  player_not_found: "{WARN}Oyuncu '{player}' bulunamadı!"
+  farm_not_found: "{WARN}Çiftlik '{farm}' bulunamadı!"
+  tool_not_found: "{WARN}Eşya '{tool}' bulunamadı!"
+  deliver:
+    quest_not_delivery: "{WARN}Görevin teslim etmek değil."
+  create_region:
+    missing_points: "{WARN}Eksik seçilmiş noktaların var."
+    invalid_id: "{WARN}[a-z0-9]{8} kalıbına uygun bir id seçmelisin."
+    already_exists: "{WARN}Çiftlik '{id}' zaten bulunuyor."
+    success: "{SUCCESS}Çiftlik '{id}' oluşturuldu."
+  resize_region:
+    missing_points: "{WARN}Eksik seçilmiş noktaların var."
+    does_not_exist: "{WARN}Çiftlik '{id}' bulunmuyor."
+    success: "{SUCCESS}Çiftlik '{id}' yeniden boyutlandırıldı."
+  delete_region:
+    does_not_exist: "{WARN}Çiftlik '{id}' bulunmuyor."
+    confirm_info: "{WARN}Bu eylem oyuncuların bu çiftlikten olan aktif görevlerini bırakmalarına neden olacak. Lütfen bu komutla doğrulayın: '/farmquest deleteregion {farm} confirm'."
+    success: "{SUCCESS}Çiftlik '{id}' kaldırıldı!"
+  farm_marker:
+    get_marker: "{SUCCESS}Çiftlik İşaretleyici alındı."
+  items:
+    open: "{SUCCESS}Eşyalar menüsü açıldı."
+  reload:
+    success: "{SUCCESS}Konfigurasyon yenilendi!"
+  remove_completed:
+    not_completed: "{WARN}Bu oyuncu görevi tamamlamamış!"
+    success: "{SUCCESS}Görev oyuncu '{player}'in tamamlanmış görevlerinden kaldırıldı!"
+#
+menu:
+  farm_editor:
+    title: "&8Çiftlik Editör ({WHITE}{farm}&8)"
+    region:
+      name: "{TITLE}Alan: {WHITE}{region}"
+    linked_quests:
+      name: "{TITLE}&nTanımlı Görevler"
+      lore:
+        - ""
+        - " {STAR}* {WHITE}{quest.%n}"
+        - ""
+        - "{WHITE}Görev eklemek için sol tıkla."
+        - "{WHITE}Görev çıkarmak için sağ tıkla."
+  farmer_menu:
+    title: "&8Çiftçi Menüsü"
+    pickup:
+      name: "{TITLE}Görev Al"
+      lore:
+        - "{WHITE}Görevleri görmek için tıkla!"
+    delivery:
+      name: "{TITLE}Teslim Et"
+      lore:
+        - "{WHITE}Materyalleri teslim etmek için tıkla!"
+    drop:
+      name: "{TITLE}Görevi Bırak"
+      lore:
+        - "&cBırakmak için tıkla!"
+    sub_quest_list:
+      title: "&8Görev Listesi"
+      quest:
+        name: "{TITLE}Görev {WHITE} '{quest}'"
+        lore:
+          - " {STAR}* &7{quest_description}"
+          - ""
+          - "{WHITE}Almak için tıkla!"
+  items:
+    title: "&8FarmQuest Eşyalari"
+    tool_extra_lore:
+      - ""
+      - "{WHITE}Almak için tıkla!"
+  quest_list:
+    title: "&8Görev Listesi | Seçim"
+    quest:
+      name: "{TITLE}Görev {WHITE} '{quest}'"
+      lore:
+        - "{TITLE}Ad: {WHITE}{quest_name}"
+        - "{TITLE}Açıklama: {WHITE}{quest_description}"
+
+lang_version: "0" # DEĞİŞTİRMEYİN

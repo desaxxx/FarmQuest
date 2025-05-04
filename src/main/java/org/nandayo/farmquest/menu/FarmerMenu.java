@@ -13,6 +13,9 @@ import org.nandayo.farmquest.model.farm.Farm;
 import org.nandayo.farmquest.model.Farmer;
 import org.nandayo.farmquest.model.quest.Quest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FarmerMenu extends Menu {
 
     private final FarmQuest plugin;
@@ -25,25 +28,25 @@ public class FarmerMenu extends Menu {
     public void open(@NotNull Player player) {
         Farmer farmer = Farmer.getPlayer(player);
         if(farmer == null) {
-            plugin.tell(player, "{WARN}You are not a farm player.");
+            plugin.tell(player, plugin.languageUtil.getString("not_a_farmer_player"));
             return;
         }
 
-        this.createInventory(9, "&8Farmer Menu");
+        this.createInventory(9, plugin.languageUtil.getString("menu.farmer_menu.title").replace("{farm}", farm.getId()));
 
         // Pickup quest
         this.addButton(new Button(3) {
             @Override
             public ItemStack getItem() {
                 return ItemCreator.of(Material.WRITABLE_BOOK)
-                        .name("{TITLE}Pickup a Quest")
-                        .lore("{WHITE}Click to see quests!")
+                        .name(plugin.languageUtil.getString("menu.farmer_menu.pickup.name"))
+                        .lore(plugin.languageUtil.getStringList("menu.farmer_menu.pickup.lore"))
                         .get();
             }
 
             @Override
             public void onClick(Player player, ClickType clickType) {
-                new FarmerMenuQuestList(farm, farmer).open(player);
+                new FarmerMenuQuestList(plugin, farm, farmer).open(player);
             }
         });
 
@@ -52,8 +55,8 @@ public class FarmerMenu extends Menu {
             @Override
             public ItemStack getItem() {
                 return ItemCreator.of(Material.BARREL)
-                        .name("{TITLE}Deliver")
-                        .lore("{WHITE}Click here to deliver materials!")
+                        .name(plugin.languageUtil.getString("menu.farmer_menu.delivery.name"))
+                        .lore(plugin.languageUtil.getStringList("menu.farmer_menu.delivery.lore"))
                         .get();
             }
 
@@ -68,19 +71,19 @@ public class FarmerMenu extends Menu {
             @Override
             public ItemStack getItem() {
                 return ItemCreator.of(Material.REDSTONE)
-                        .name("{TITLE}Drop the Quest")
-                        .lore("&cClick to drop!")
+                        .name(plugin.languageUtil.getString("menu.farmer_menu.drop.name"))
+                        .lore(plugin.languageUtil.getStringList("menu.farmer_menu.drop.lore"))
                         .get();
             }
 
             @Override
             public void onClick(Player player, ClickType clickType) {
                 if(farmer.getActiveQuestProgress() == null) {
-                    farmer.tell("{WARN}You don't have an active quest.");
+                    farmer.tell(plugin.languageUtil.getString("do_not_have_active_quest"));
                     return;
                 }
                 farmer.dropQuest(false);
-                farmer.tell("{WHITE}Dropped the quest.");
+                farmer.tell(plugin.languageUtil.getString("drop_quest"));
             }
         });
 
@@ -91,13 +94,15 @@ public class FarmerMenu extends Menu {
 
         private final Farm farm;
         private final Farmer farmer;
-        public FarmerMenuQuestList(@NotNull Farm farm, @NotNull Farmer farmer) {
+        private final FarmQuest plugin;
+        public FarmerMenuQuestList(@NotNull FarmQuest plugin, @NotNull Farm farm, @NotNull Farmer farmer) {
+            this.plugin = plugin;
             this.farm = farm;
             this.farmer = farmer;
         }
 
         public void open(@NotNull Player player) {
-            this.createInventory(54, "&8Quest List");
+            this.createInventory(54, plugin.languageUtil.getString("menu.farmer_menu.sub_quest_list.title").replace("{farm}", farm.getId()));
 
             int slot = 0;
             for(Quest quest : farm.getQuests()) {
@@ -106,17 +111,26 @@ public class FarmerMenu extends Menu {
                     @Override
                     public ItemStack getItem() {
                         return ItemCreator.of(Material.PAPER)
-                                .name("{TITLE}Quest {WHITE} '" + quest.getName() + "'")
-                                .lore(" {STAR}* &7" + quest.getDescription(),
-                                        "",
-                                        "{WHITE}Click to pickup!")
+                                .name(plugin.languageUtil.getString("menu.farmer_menu.sub_quest_list.quest.name").replace("{quest}", quest.getName()))
+                                .lore(() -> {
+                                    List<String> rawLore = plugin.languageUtil.getStringList("menu.farmer_menu.sub_quest_list.quest.lore");
+                                    List<String> lore = new ArrayList<>();
+                                    for(String line : rawLore) {
+                                        if(line.contains("{quest_description}")) {
+                                            lore.add(line.replace("{quest_description}", quest.getDescription()));
+                                        }else {
+                                            lore.add(line);
+                                        }
+                                    }
+                                    return lore;
+                                })
                                 .get();
                     }
 
                     @Override
                     public void onClick(Player player, ClickType clickType) {
                         player.closeInventory();
-                        farmer.pickupQuest(quest);
+                        farmer.pickupQuest(quest, farm);
                     }
                 });
             }

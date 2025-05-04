@@ -1,6 +1,5 @@
 package org.nandayo.farmquest.command;
 
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -12,14 +11,14 @@ import org.nandayo.farmquest.model.farm.Farm;
 public class FarmManagerCommand extends SubCommand {
 
     @Override
-    public boolean onSubCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, String[] args) {
+    public boolean onSubCommand(@NotNull CommandSender sender, @NotNull String s, String[] args) {
         FarmQuest plugin = FarmQuest.getInstance();
         if(!sender.hasPermission("farmquest.command.farmmanager")) {
-            plugin.tell(sender, "{WARN}You don't have permission to use this command.");
+            plugin.tell(sender, plugin.languageUtil.getString("command.no.perm"));
             return true;
         }
         if(!(sender instanceof Player player)) {
-            plugin.tell(sender, "{WARN}Only players can execute this command");
+            plugin.tell(sender, plugin.languageUtil.getString("command.only_players"));
             return true;
         }
         if(args.length < 2) {
@@ -27,11 +26,15 @@ public class FarmManagerCommand extends SubCommand {
             return true;
         }
         if(Farm.getRegisteredFarms().isEmpty()) {
-            plugin.tell(player, "{WARN}Farms are empty or not loaded yet.");
+            plugin.tell(player, plugin.languageUtil.getString("farms_empty"));
+            return true;
+        }
+        Farm farm = Farm.getFarm(args[1]);
+        if(farm == null) {
+            plugin.tell(player, plugin.languageUtil.getString("command.farm_not_found").replace("{farm}", args[1]));
             return true;
         }
 
-        Farm farm = Farm.getFarmOrThrow(args[1]);
         new FarmEditorMenu(plugin).open(player, farm);
         return true;
     }

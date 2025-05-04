@@ -4,6 +4,8 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.nandayo.dapi.Util;
+import org.nandayo.farmquest.FarmQuest;
 import org.nandayo.farmquest.model.farm.FarmTool;
 import org.nandayo.farmquest.model.Farmer;
 
@@ -34,10 +36,14 @@ public class Reward {
                 break;
 
             case FARM_TOOL:
-                for(String farmTool : run) {
-                    FarmTool tool = FarmTool.getToolOrThrow(farmTool);
+                for(String farmToolId : run) {
+                    FarmTool tool = FarmTool.getTool(farmToolId);
+                    if(tool == null) {
+                        Util.log(FarmQuest.getInstance().languageUtil.getString("tool_not_found").replace("{tool}", farmToolId));
+                        continue;
+                    }
                     player.getInventory().addItem(tool.getItem());
-                    farmer.tell("{SUCCESS}Gained a farm tool!");
+                    farmer.tell(FarmQuest.getInstance().languageUtil.getString("win_farm_tool"));
                 }
                 break;
         }

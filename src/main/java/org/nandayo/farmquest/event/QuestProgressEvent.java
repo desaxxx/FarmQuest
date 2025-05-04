@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.nandayo.farmquest.model.farm.Farm;
 import org.nandayo.farmquest.model.Farmer;
 import org.nandayo.farmquest.model.quest.Quest;
+import org.nandayo.farmquest.model.quest.QuestProgress;
 
 @Getter
 public class QuestProgressEvent extends Event {
@@ -21,14 +22,12 @@ public class QuestProgressEvent extends Event {
     }
 
     private final Farmer farmer;
-    private final Quest quest;
-    private final Farm farm;
+    private final QuestProgress questProgress;
     private final int progress;
 
-    public QuestProgressEvent(@NotNull Farmer farmer, @NotNull Quest quest, @NotNull Farm farm, int progress) {
+    public QuestProgressEvent(@NotNull Farmer farmer, @NotNull QuestProgress questProgress, int progress) {
         this.farmer = farmer;
-        this.quest = quest;
-        this.farm = farm;
+        this.questProgress = questProgress;
         this.progress = progress;
     }
 }

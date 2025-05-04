@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.nandayo.farmquest.FarmQuest;
+import org.nandayo.farmquest.model.farm.Farm;
 
 import java.time.Instant;
 
@@ -11,12 +12,14 @@ import java.time.Instant;
 public class QuestProgress {
 
     private final Quest quest;
+    private final Farm farm;
     private int progress;
     private final long startTime;
     private BukkitRunnable tickingTask = null;
 
-    public QuestProgress(@NotNull Quest quest, int progress, long startTime) {
+    public QuestProgress(@NotNull Quest quest, @NotNull Farm farm, int progress, long startTime) {
         this.quest = quest;
+        this.farm = farm;
         this.progress = progress;
         this.startTime = startTime;
     }
@@ -75,6 +78,12 @@ public class QuestProgress {
             }
         };
         tickingTask.runTaskTimer(FarmQuest.getInstance(), 0, 20L);
+    }
+
+    public void stopTicking() {
+        if(tickingTask == null) return;
+        tickingTask.cancel();
+        tickingTask = null;
     }
 
     public long getElapsed() {

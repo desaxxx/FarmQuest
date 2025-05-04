@@ -31,11 +31,15 @@ public class Farm {
 
 
     public void register() {
-        if(getFarm(id) == null) {
+        if(!registeredFarms.contains(this)) {
             registeredFarms.add(this);
         }else {
             Util.log(String.format("{WARN}Farm with id '%s' was already registered.", id));
         }
+    }
+
+    public void unregister() {
+        registeredFarms.remove(this);
     }
 
     /**
@@ -72,24 +76,10 @@ public class Farm {
                 .findFirst().orElse(null);
     }
 
-    @NotNull
-    static public Farm getFarmOrThrow(@NotNull String id) {
-        Farm farm = getFarm(id);
-        if(farm != null) return farm;
-        else throw new NullPointerException("Farm is null!");
-    }
-
     @Nullable
     static public Farm getFarm(@NotNull Location location) {
         return registeredFarms.stream()
                 .filter(f -> f.getRegion().isInside(location))
                 .findFirst().orElse(null);
-    }
-
-    @NotNull
-    static public Farm getFarmOrThrow(@NotNull Location location) {
-        Farm farm = getFarm(location);
-        if (farm != null) return farm;
-        else throw new NullPointerException("Farm is null.");
     }
 }

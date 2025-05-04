@@ -54,15 +54,19 @@ public class BukkitListener implements Listener {
             case LEFT_CLICK_BLOCK:
                 points[0] = point;
                 plugin.playerMarkers.put(player, points);
-                plugin.tell(player, String.format("{WHITE}You have selected 1st point. [%.1f,%.1f,%.1f]",
-                        location.getX(), location.getY(), location.getZ()));
+                plugin.tell(player, plugin.languageUtil.getString("select_1st_point")
+                        .replace("{x}", String.format("%.1f", location.getX()))
+                        .replace("{y}", String.format("%.1f", location.getY()))
+                        .replace("{z}", String.format("%.1f", location.getZ())));
                 break;
 
             case RIGHT_CLICK_BLOCK:
                 points[1] = point;
                 plugin.playerMarkers.put(player, points);
-                plugin.tell(player, String.format("{WHITE}You have selected 2nd point. [%.1f,%.1f,%.1f]",
-                        location.getX(), location.getY(), location.getZ()));
+                plugin.tell(player, plugin.languageUtil.getString("select_2nd_point")
+                        .replace("{x}", String.format("%.1f", location.getX()))
+                        .replace("{y}", String.format("%.1f", location.getY()))
+                        .replace("{z}", String.format("%.1f", location.getZ())));
                 break;
 
         }
@@ -81,7 +85,7 @@ public class BukkitListener implements Listener {
         if (farm == null) return;
 
         e.setCancelled(true);
-        plugin.tell(e.getPlayer(), "&7Farm detected: '" + farm.getId() + "'");
+        plugin.tell(e.getPlayer(), plugin.languageUtil.getString("farm_detected").replace("{farm}", farm.getId()));
     }
 
     @EventHandler
@@ -151,7 +155,7 @@ public class BukkitListener implements Listener {
         if(progress > 0 && objectiveType == Objective.ObjectiveType.HARVEST) { // No progress in delivery objective.
             final int finalProgress = progress;
             Bukkit.getScheduler().runTask(FarmQuest.getInstance(), () ->
-                    Bukkit.getPluginManager().callEvent(new QuestProgressEvent(farmer, questProgress.getQuest(), farm, finalProgress)));
+                    Bukkit.getPluginManager().callEvent(new QuestProgressEvent(farmer, questProgress, finalProgress)));
         }
 
         if(Setting.AUTO_PLANT.isEnabled() && isRoot) {
@@ -211,7 +215,7 @@ public class BukkitListener implements Listener {
         if(player.getGameMode() == GameMode.CREATIVE) return; // No progress in creative
 
         Bukkit.getScheduler().runTask(FarmQuest.getInstance(), () ->
-                Bukkit.getPluginManager().callEvent(new QuestProgressEvent(farmer, questProgress.getQuest(), farm, 1)));
+                Bukkit.getPluginManager().callEvent(new QuestProgressEvent(farmer, questProgress, 1)));
 
         if(Setting.AUTO_REMOVE.isEnabled()) {
             Bukkit.getScheduler().runTaskLater(FarmQuest.getInstance(), () -> {

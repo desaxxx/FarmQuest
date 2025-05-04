@@ -45,8 +45,11 @@ public class BossBarManager {
                     if(bossBar == null) bossBar = farmer.getBossBarOrCreate();
                     Quest quest = questProgress.getQuest();
                     int remained = (int) (quest.getTimeLimit() - (currentSeconds - questProgress.getStartTime()));
-                    final String title = HexUtil.parse(String.format("{TITLE}%s{WHITE}: {SUCCESS}%d {WHITE}out of {STAR}%d {WHITE}done! [{WARN}%s{WHITE}]",
-                            quest.getName(), questProgress.getProgress(), quest.getTargetAmount(), FarmQuest.getInstance().formatTime(remained)));
+                    final String title = HexUtil.parse(plugin.languageUtil.getString("quest_progress_bar")
+                            .replace("{quest}", quest.getName())
+                            .replace("{progress}", String.valueOf(questProgress.getProgress()))
+                            .replace("{target}", String.valueOf(quest.getTargetAmount()))
+                            .replace("{remained}", FarmQuest.getInstance().formatTime(remained)));
                     bossBar.setTitle(title);
                 }
             }

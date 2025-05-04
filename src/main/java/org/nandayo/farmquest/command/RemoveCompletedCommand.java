@@ -1,7 +1,6 @@
 package org.nandayo.farmquest.command;
 
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -13,10 +12,10 @@ import org.nandayo.farmquest.model.quest.Quest;
 public class RemoveCompletedCommand extends SubCommand {
 
     @Override
-    public boolean onSubCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, String[] args) {
+    public boolean onSubCommand(@NotNull CommandSender sender, @NotNull String s, String[] args) {
         FarmQuest plugin = FarmQuest.getInstance();
         if(!sender.hasPermission("farmquest.command.removecompleted")) {
-            plugin.tell(sender, "{WARN}You don't have permission to use this command.");
+            plugin.tell(sender, plugin.languageUtil.getString("command.no_perm"));
             return true;
         }
         if(args.length < 3) {
@@ -26,17 +25,21 @@ public class RemoveCompletedCommand extends SubCommand {
         Quest quest = Quest.getQuestOrThrow(args[1]);
         Player player = Bukkit.getPlayer(args[2]);
         if(player == null) {
-            plugin.tell(sender, "{WARN}Player was not found!");
+            plugin.tell(sender, plugin.languageUtil.getString("command.player_not_found").replace("{player}", args[2]));
             return true;
         }
-        Farmer farmer = Farmer.getPlayerOrThrow(player);
+        Farmer farmer = Farmer.getPlayer(player);
+        if(farmer == null) {
+            plugin.tell(sender, plugin.languageUtil.getString("not_a_farmer_player_other").replace("{player}", player.getName()));
+            return true;
+        }
         if(!farmer.getCompletedQuests().contains(quest)) {
-            plugin.tell(sender, "{WARN}This player didn't complete the quest!");
+            plugin.tell(sender, plugin.languageUtil.getString("command.remove_completed.not_completed"));
             return true;
         }
 
         farmer.getCompletedQuests().remove(quest);
-        plugin.tell(sender, String.format("{SUCCESS}Removed the quest from completed quests of player '%s'!", player.getName()));
+        plugin.tell(sender, plugin.languageUtil.getString("command.remove_completed.success").replace("{player}", player.getName()));
         return true;
     }
 }

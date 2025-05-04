@@ -9,6 +9,7 @@ import org.bukkit.block.data.Bisected;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.type.CaveVinesPlant;
 import org.jetbrains.annotations.NotNull;
+import org.nandayo.dapi.object.DMaterial;
 
 import java.util.function.Function;
 
@@ -80,7 +81,8 @@ public class BlockDataHolder {
         //
 
         static public BlockData findAdapterGetData(@NotNull BlockData blockData) {
-            return switch (blockData.getMaterial()) {
+            DMaterial dMaterial = DMaterial.getByName(blockData.getMaterial().toString());
+            return switch (dMaterial) {
                 case CAVE_VINES_PLANT -> CAVE_VINES_ADAPTER.getData(blockData);
                 case KELP_PLANT -> KELP_ADAPTER.getData(blockData);
                 case TORCHFLOWER -> TORCHFLOWER_CROP_ADAPTER.getData(blockData);

@@ -18,7 +18,7 @@ public class ItemsMenu extends Menu {
     }
 
     public void open(@NotNull Player player) {
-        this.createInventory(27, "&8FarmQuest Items");
+        this.createInventory(27, plugin.languageUtil.getString("menu.items.title"));
 
         int slot = 0;
         for(FarmTool tool : FarmTool.getRegisteredTools()) {
@@ -26,8 +26,7 @@ public class ItemsMenu extends Menu {
                 @Override
                 public ItemStack getItem() {
                     return ItemCreator.of(tool.getItem().clone())
-                            .addLore("",
-                                    "{WHITE}Click to get!")
+                            .addLore(plugin.languageUtil.getStringList("menu.items.tool_extra_lore"))
                             .get();
                 }
 
@@ -35,7 +34,7 @@ public class ItemsMenu extends Menu {
                 public void onClick(Player player, ClickType clickType) {
                     player.closeInventory();
                     player.getInventory().addItem(tool.getItem());
-                    plugin.tell(player, String.format("{WARN}You got the FarmTool '%s'.", tool.getName()));
+                    plugin.tell(player, plugin.languageUtil.getString("get_farm_tool_from_menu").replace("{tool}", tool.getName()));
                 }
             });
         }

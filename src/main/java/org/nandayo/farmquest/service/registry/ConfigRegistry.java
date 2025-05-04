@@ -1,5 +1,6 @@
 package org.nandayo.farmquest.service.registry;
 
+import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
@@ -8,6 +9,8 @@ import org.nandayo.farmquest.enumeration.Setting;
 
 public class ConfigRegistry extends Registry {
 
+    @Getter
+    private FileConfiguration config;
     public ConfigRegistry(@NotNull FarmQuest plugin) {
         super(plugin);
     }
@@ -19,7 +22,7 @@ public class ConfigRegistry extends Registry {
 
     @Override
     public void load() {
-        FileConfiguration config = YamlConfiguration.loadConfiguration(getFile());
+        config = YamlConfiguration.loadConfiguration(getFile());
         for(Setting setting : Setting.values()) {
             boolean val = config.getBoolean("settings." + setting.name(), setting.isEnabled());
             Setting.set(setting, val);

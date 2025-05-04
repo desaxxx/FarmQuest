@@ -20,21 +20,25 @@ public class MainCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if(args.length >= 1) {
             if(args[0].equalsIgnoreCase("farmer")) {
-                return new FarmerMenuCommand().onSubCommand(sender, command, s, args);
+                return new FarmerMenuCommand().onSubCommand(sender, s, args);
             } else if (args[0].equalsIgnoreCase("deliver")) {
-                return new DeliverCommand().onSubCommand(sender, command, s, args);
+                return new DeliverCommand().onSubCommand(sender, s, args);
             } else if (args[0].equalsIgnoreCase("farmmarker")) {
-                return new FarmMarkerCommand().onSubCommand(sender, command, s, args);
+                return new FarmMarkerCommand().onSubCommand(sender, s, args);
             } else if (args[0].equalsIgnoreCase("createregion")) {
-                return new CreateRegionCommand().onSubCommand(sender, command, s, args);
+                return new CreateRegionCommand().onSubCommand(sender, s, args);
+            } else if (args[0].equalsIgnoreCase("resizeregion")) {
+                return new ResizeRegionCommand().onSubCommand(sender, s, args);
+            } else if (args[0].equalsIgnoreCase("deleteregion")) {
+                return new DeleteRegionCommand().onSubCommand(sender, s, args);
             } else if (args[0].equalsIgnoreCase("reload")) {
-                return new ReloadCommand().onSubCommand(sender, command, s, args);
+                return new ReloadCommand().onSubCommand(sender, s, args);
             } else if (args[0].equalsIgnoreCase("farmmanager")) {
-                return new FarmManagerCommand().onSubCommand(sender, command, s, args);
+                return new FarmManagerCommand().onSubCommand(sender, s, args);
             } else if(args[0].equalsIgnoreCase("items")) {
-               return new ItemsCommand().onSubCommand(sender, command, s, args);
+               return new ItemsCommand().onSubCommand(sender, s, args);
             } else if(args[0].equalsIgnoreCase("removecompleted")) {
-                return new RemoveCompletedCommand().onSubCommand(sender, command, s, args);
+                return new RemoveCompletedCommand().onSubCommand(sender, s, args);
             }
         }
         return true;
@@ -44,12 +48,12 @@ public class MainCommand implements CommandExecutor, TabCompleter {
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if(args.length == 1) {
             List<String> completions = new ArrayList<>(List.of("deliver","farmer"));
-            for(String arg : Arrays.asList("farmmarker","createregion", "reload","farmmanager","items","removecompleted")) {
+            for(String arg : Arrays.asList("farmmarker","createregion","resizeregion","deleteregion","reload","farmmanager","items","removecompleted")) {
                 if(sender.hasPermission("farmquest." + arg)) completions.add(arg);
             }
             return completions;
         }
-        else if(args.length == 2 && Arrays.asList("farmer","farmmanager").contains(args[0])) {
+        else if(args.length == 2 && Arrays.asList("farmer","farmmanager","resizeregion","deleteregion").contains(args[0])) {
             return Farm.getRegisteredFarms().stream().filter(Objects::nonNull).map(Farm::getId).toList();
         }
         else if(args.length == 2 && args[0].equalsIgnoreCase("removecompleted")) {

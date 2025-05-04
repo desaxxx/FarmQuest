@@ -68,18 +68,6 @@ public class FarmTool {
     }
 
     /**
-     * Get tool from id.
-     * @param id Id
-     * @return FarmTool
-     */
-    @NotNull
-    static public FarmTool getToolOrThrow(@NotNull String id) {
-        FarmTool tool = getTool(id);
-        if(tool != null) return tool;
-        else throw new NullPointerException("FarmTool is null!");
-    }
-
-    /**
      * Get tool from item.
      * @param item ItemStack
      * @return FarmTool if found, or <code>null</code>
@@ -89,17 +77,5 @@ public class FarmTool {
         return registeredTools.stream()
                 .filter(t -> t.getItem().isSimilar(item))
                 .findFirst().orElse(null);
-    }
-
-    /**
-     * Get tool from item.
-     * @param item ItemStack
-     * @return FarmTool
-     */
-    @NotNull
-    static  public FarmTool getToolOrThrow(@NotNull ItemStack item) {
-        FarmTool tool = getTool(item);
-        if(tool != null) return tool;
-        else throw new NullPointerException("FarmTool is null!");
     }
 }

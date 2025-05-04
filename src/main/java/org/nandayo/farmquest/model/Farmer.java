@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Sound;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.KeyedBossBar;
@@ -17,6 +18,7 @@ import org.jetbrains.annotations.Nullable;
 import org.nandayo.dapi.ItemCreator;
 import org.nandayo.dapi.Util;
 import org.nandayo.farmquest.FarmQuest;
+import org.nandayo.farmquest.model.farm.Farm;
 import org.nandayo.farmquest.model.quest.Objective;
 import org.nandayo.farmquest.model.quest.Quest;
 import org.nandayo.farmquest.model.quest.QuestProgress;
@@ -25,19 +27,20 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter
 public class Farmer {
 
-    private final UUID uuid;
-    private QuestProgress activeQuestProgress;
-    private final Collection<Quest> completedQuests;
+    private final @NotNull UUID uuid;
+    private @Nullable QuestProgress activeQuestProgress;
+    private final @NotNull Collection<Quest> completedQuests;
 
     @Setter
-    private KeyedBossBar bossBar;
+    private @Nullable KeyedBossBar bossBar;
 
-    public Farmer(@NotNull UUID uuid, QuestProgress activeQuestProgress, Collection<Quest> completedQuests) {
+    public Farmer(@NotNull UUID uuid, @Nullable QuestProgress activeQuestProgress, @NotNull Collection<Quest> completedQuests) {
         this.uuid = uuid;
         this.activeQuestProgress = activeQuestProgress;
         this.completedQuests = new ArrayList<>(completedQuests);
@@ -79,19 +82,28 @@ public class Farmer {
      * Picks up a quest.
      * @param quest Quest
      */
-    public void pickupQuest(@NotNull Quest quest) {
+    public void pickupQuest(@NotNull Quest quest, @NotNull Farm farm) {
+        FarmQuest plugin = FarmQuest.getInstance();
+        Player player = getOfflinePlayer().getPlayer();
         if(this.activeQuestProgress != null) {
-            tell("{WARN}You already have an active quest!");
+            tell(plugin.languageUtil.getString("have_active_quest"));
+            if(player != null) player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 1f, 1f);
             return;
         }
         if(this.completedQuests.contains(quest)) {
-            tell("{WARN}You already completed this quest!");
+            tell(plugin.languageUtil.getString("quest_already_completed"));
+            if(player != null) player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 1f, 1f);
+            return;
+        }
+        QuestProgress freshProgress = quest.freshProgress(farm);
+        if(freshProgress == null) {
+            tell(plugin.languageUtil.getString("quest_is_not_linked_to_farm").replace("{farm}", farm.getId()));
+            if(player != null) player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 1f, 1f);
             return;
         }
 
-        this.activeQuestProgress = quest.freshProgress();
+        this.activeQuestProgress = freshProgress;
         if(quest.getType() == Objective.ObjectiveType.PLANT) {
-            Player player = getOfflinePlayer().getPlayer();
             if(player != null) {
                 ItemStack seeds = ItemCreator.of(quest.getFarmBlock().getSeedMaterial()).amount(quest.getTargetAmount()).get();
                 player.getInventory().addItem(seeds);
@@ -101,20 +113,23 @@ public class Farmer {
             if(this.activeQuestProgress == null || !activeQuestProgress.getQuest().equals(quest)) return;
 
             dropQuest(false);
-            tell("{WARN}You exceed the quest time limit.");
+            tell(plugin.languageUtil.getString("exceed_quest_time_limit"));
         });
-        tell(String.format("{SUCCESS}Picked up quest '%s'.", quest.getName()));
+        tell(plugin.languageUtil.getString("pickup_quest").replace("{quest}", quest.getName()));
+        if(player != null) player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
     }
 
     public void continueActiveQuest() {
         if(this.activeQuestProgress == null || this.activeQuestProgress.isTicking()) return;
 
-        Quest quest = this.getActiveQuestProgress().getQuest();
+        Quest quest = this.activeQuestProgress.getQuest();
         this.activeQuestProgress.startTicking(() -> {
             if(this.activeQuestProgress == null || !activeQuestProgress.getQuest().equals(quest)) return;
 
             dropQuest(false);
-            tell("{WARN}You exceed the quest time limit.");
+            tell(FarmQuest.getInstance().languageUtil.getString("exceed_quest_time_limit"));
+            Player player = getOfflinePlayer().getPlayer();
+            if(player != null) player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_STARE, 1f, 1f);
         });
     }
 
@@ -123,9 +138,14 @@ public class Farmer {
      */
     public void dropQuest(boolean completed) {
         if(this.activeQuestProgress == null) return;
+        Player player = getOfflinePlayer().getPlayer();
         if(completed) {
             this.completedQuests.add(this.activeQuestProgress.getQuest());
+            if(player != null) player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1f, 1f);
+        }else {
+            if(player != null) player.playSound(player.getLocation(), Sound.ENTITY_ITEM_BREAK, 1f, 1f);
         }
+        this.activeQuestProgress.stopTicking();
         this.activeQuestProgress = null;
     }
 
@@ -145,11 +165,16 @@ public class Farmer {
 
 
 
-    public synchronized void save() {
+    public void save() {
+        if(this.activeQuestProgress != null) {
+            this.activeQuestProgress.stopTicking();
+        }
+
         File file = new File(FarmQuest.getInstance().getDataFolder(), "players/" + uuid + ".yml");
         FileConfiguration config = new YamlConfiguration();
 
         config.set("active_quest.quest", this.activeQuestProgress == null ? null : this.activeQuestProgress.getQuest().getId());
+        config.set("active_quest.farm", this.activeQuestProgress == null ? null : this.activeQuestProgress.getFarm().getId());
         config.set("active_quest.progress", this.activeQuestProgress == null ? null : this.activeQuestProgress.getProgress());
         config.set("active_quest.start_time",  this.activeQuestProgress == null ? null : this.activeQuestProgress.getStartTime());
         config.set("completed_quests", this.completedQuests.stream().map(Quest::getId).toList());
@@ -182,18 +207,6 @@ public class Farmer {
     }
 
     /**
-     * Get FarmPlayer from UUID.
-     * @param uuid UUID
-     * @return FarmPlayer
-     */
-    @NotNull
-    static public Farmer getPlayerOrThrow(@NotNull UUID uuid) {
-        Farmer farmer = getPlayer(uuid);
-        if(farmer != null) return farmer;
-        else throw new NullPointerException("FarmPlayer is null.");
-    }
-
-    /**
      * Get FarmPlayer from offline player.
      * @param offlinePlayer OfflinePlayer
      * @return FarmPlayer if found, or <code>null</code>
@@ -206,38 +219,28 @@ public class Farmer {
     }
 
     /**
-     * Get FarmPlayer from offline player.
-     * @param offlinePlayer OfflinePlayer
-     * @return FarmPlayer
-     */
-    @NotNull
-    static public Farmer getPlayerOrThrow(@NotNull OfflinePlayer offlinePlayer) {
-        Farmer farmer = getPlayer(offlinePlayer);
-        if(farmer != null) return farmer;
-        else throw new NullPointerException("FarmPlayer is null.");
-    }
-
-    /**
      * Register a FarmPlayer from UUID.
      * @param uuid UUID
      */
-    static public synchronized void load(@NotNull UUID uuid) {
+    static public void load(@NotNull UUID uuid) {
         File file = new File(FarmQuest.getInstance().getDataFolder(), "players/" + uuid + ".yml");
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 
-        Quest q = Quest.getQuest(config.getString("active_quest.quest",""));
+        Quest quest = Quest.getQuest(config.getString("active_quest.quest",""));
+        Farm farm = Farm.getFarm(config.getString("active_quest.farm",""));
         QuestProgress activeQuestProgress = null;
-        if(q != null) {
+        if(quest != null && farm != null) {
             int progress = config.getInt("active_quest.progress",0);
             long startTime = config.getLong("active_quest.start_time",0);
-            activeQuestProgress = new QuestProgress(q, progress, startTime);
+            activeQuestProgress = new QuestProgress(quest, farm, progress, startTime);
         }
         Collection<Quest> completedQuests = config.getStringList("completed_quests").stream()
                 .map(Quest::getQuest)
+                .filter(Objects::nonNull)
                 .toList();
 
-        Farmer fp = new Farmer(uuid, activeQuestProgress, completedQuests);
-        fp.register();
-        fp.continueActiveQuest();
+        Farmer farmer = new Farmer(uuid, activeQuestProgress, completedQuests);
+        farmer.register();
+        farmer.continueActiveQuest();
     }
 }

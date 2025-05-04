@@ -1,6 +1,7 @@
 # Example
 #active_quest:
 #  quest: 4a
+#  farm: farm0001
 #  progress: 10
 #  start_time: 2
 #completed_quests:

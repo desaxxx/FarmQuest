@@ -28,6 +28,7 @@ import org.nandayo.farmquest.service.registry.FarmRegistry;
 import org.nandayo.farmquest.service.registry.QuestRegistry;
 import org.nandayo.farmquest.service.registry.ConfigRegistry;
 import org.nandayo.farmquest.service.registry.ToolRegistry;
+import org.nandayo.farmquest.util.LanguageUtil;
 import org.nandayo.farmquest.util.UpdateChecker;
 import org.nandayo.farmquest.util.Wrapper;
 
@@ -48,12 +49,14 @@ public final class FarmQuest extends JavaPlugin {
     public ToolRegistry toolRegistry;
     public ConfigRegistry configRegistry;
     public Wrapper wrapper;
+    public LanguageUtil languageUtil;
 
     @Override
     public void onEnable() {
         instance = this;
 
         Objects.requireNonNull(getCommand("farmquest")).setExecutor(new MainCommand());
+
         Bukkit.getPluginManager().registerEvents(new BukkitListener(), this);
         Bukkit.getPluginManager().registerEvents(new CustomListener(), this);
 
@@ -64,7 +67,7 @@ public final class FarmQuest extends JavaPlugin {
 
         wrapper = new Wrapper(this);
 
-        doRegistry(true);
+        doRegistry();
 
         bossBarManager = new BossBarManager(this);
         bossBarManager.start();
@@ -75,7 +78,7 @@ public final class FarmQuest extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        closeRegistry();
+        closeRegistry(false);
 
         if(bossBarManager != null) bossBarManager.stop();
 
@@ -93,40 +96,44 @@ public final class FarmQuest extends JavaPlugin {
             put("{WARN}", "<#e56666>");
             put("{SUCCESS}", "<#bfe769>");
         }};
-        dapi.setMissingArgsMsg("{WARN}Usage: /{label} {current_args} {options}");
+        dapi.setMissingArgsMsg("{WARN}Usage: /{command} {current_args} {options}");
     }
 
     /**
      * Load database registries.
      */
-    public void doRegistry(boolean includePlayers) {
+    private void doRegistry() {
         // Order is important
         questRegistry = new QuestRegistry(this);
         questRegistry.load();
-        if(includePlayers) {
-            Bukkit.getOnlinePlayers().forEach(p -> Farmer.load(p.getUniqueId()));
-        }
-
         farmRegistry = new FarmRegistry(this);
         farmRegistry.load();
         toolRegistry = new ToolRegistry(this);
         toolRegistry.load();
         configRegistry = new ConfigRegistry(this);
         configRegistry.load();
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            Farmer.load(player.getUniqueId());
+        }
+
+        languageUtil = new LanguageUtil(this, configRegistry.getConfig().getString("lang_file","en_US")); // TODO
     }
 
     /**
      * Save database registries.
      */
-    private void closeRegistry() {
+    public void closeRegistry(boolean reload) {
         // Order is important
-        Bukkit.getOnlinePlayers().forEach(p -> {
-            Farmer farmer = Farmer.getPlayer(p);
-            if(farmer == null) return;
+        for (Farmer farmer : new ArrayList<>(Farmer.getPlayers())) {
             farmer.save();
-        });
+        }
         farmRegistry.save();
         questRegistry.save();
+
+        if(reload) {
+            doRegistry();
+        }
     }
 
     /**
