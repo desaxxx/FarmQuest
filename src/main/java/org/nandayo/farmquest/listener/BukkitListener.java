@@ -166,8 +166,13 @@ public class BukkitListener implements Listener {
             return;
         }
 
+        FarmBlockPlaceEvent farmBlockPlaceEvent = new FarmBlockPlaceEvent(farmer, block, farmBlock, farm, questProgress);
         Bukkit.getScheduler().runTask(FarmQuest.getInstance(), () ->
-                Bukkit.getPluginManager().callEvent(new FarmBlockPlaceEvent(farmer, block, farmBlock, farm, questProgress)));
+                Bukkit.getPluginManager().callEvent(farmBlockPlaceEvent));
+
+        if(farmBlockPlaceEvent.isCancelled()) {
+            e.setCancelled(true);
+        }
     }
 
 
