@@ -21,8 +21,8 @@ public class QuestProgressEvent extends Event {
         return HANDLERS;
     }
 
-    private final Farmer farmer;
-    private final QuestProgress questProgress;
+    private final @NotNull Farmer farmer;
+    private final @NotNull QuestProgress questProgress;
     private final int progress;
 
     public QuestProgressEvent(@NotNull Farmer farmer, @NotNull QuestProgress questProgress, int progress) {

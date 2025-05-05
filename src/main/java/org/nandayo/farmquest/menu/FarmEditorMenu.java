@@ -14,7 +14,6 @@ import org.nandayo.farmquest.model.farm.Farm;
 import org.nandayo.farmquest.model.quest.Quest;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -51,8 +50,7 @@ public class FarmEditorMenu extends Menu {
             public ItemStack getItem() {
                 return ItemCreator.of(Material.WRITABLE_BOOK)
                         .name(plugin.languageUtil.getString("menu.farm_editor.linked_quests.name"))
-                        .lore("")
-                        .addLore(() -> {
+                        .lore(() -> {
                             List<String> rawLore = plugin.languageUtil.getStringList("menu.farm_editor.linked_quests.lore");
                             List<String> lore = new ArrayList<>();
                             for (String line : rawLore) {
@@ -71,38 +69,46 @@ public class FarmEditorMenu extends Menu {
 
             @Override
             public void onClick(Player player, ClickType clickType) {
-
-                // Adding
                 if(clickType == ClickType.LEFT) {
-                    new QuestListMenu(plugin).open(player,
-                            (quest) -> {
-                                if(farm.linkQuest(quest)) {
-                                    plugin.farmRegistry.save();
-                                    plugin.tell(player, plugin.languageUtil.getString("quest_linked_to_farm").replace("{farm}", farm.getId()));
-                                        player.playSound(player.getLocation(), Sound.BLOCK_CHAIN_PLACE, 1f, 1f);
-                                } else {
-                                    plugin.tell(player, plugin.languageUtil.getString("quest_already_linked_to_farm").replace("{farm}", farm.getId()));
-                                }
-                                new FarmEditorMenu(plugin).open(player, farm);
-                            });
+                    linkQuestViaMenu(farm, player);
                 }
-                // Removing
                 else if(clickType == ClickType.RIGHT) {
-                    new QuestListMenu(plugin).open(player,
-                            (quest) -> {
-                                if(farm.unlinkQuest(quest)) {
-                                    plugin.farmRegistry.save();
-                                    plugin.tell(player, plugin.languageUtil.getString("quest_unlink_from_farm").replace("{farm}", farm.getId()));
-                                    player.playSound(player.getLocation(), Sound.BLOCK_CHAIN_BREAK, 1f, 1f);
-                                }else {
-                                    plugin.tell(player, plugin.languageUtil.getString("quest_already_not_linked_to_farm").replace("{farm}", farm.getId()));
-                                }
-                                new FarmEditorMenu(plugin).open(player, farm);
-                            });
+                    unlinkQuestViaMenu(farm, player);
                 }
             }
         });
 
         this.displayTo(viewer);
+    }
+
+
+    private void linkQuestViaMenu(@NotNull Farm farm, @NotNull Player player) {
+        new QuestListMenu(plugin).open(player,
+                (quest) -> {
+                    if(quest == null) return;
+                    if(farm.linkQuest(quest)) {
+                        plugin.farmRegistry.save();
+                        plugin.tell(player, plugin.languageUtil.getString("quest_linked_to_farm").replace("{farm}", farm.getId()));
+                        player.playSound(player.getLocation(), Sound.BLOCK_CHAIN_PLACE, 1f, 1f);
+                    } else {
+                        plugin.tell(player, plugin.languageUtil.getString("quest_already_linked_to_farm").replace("{farm}", farm.getId()));
+                    }
+                    new FarmEditorMenu(plugin).open(player, farm);
+                });
+    }
+
+    private void unlinkQuestViaMenu(@NotNull Farm farm, @NotNull Player player) {
+        new QuestListMenu(plugin).open(player,
+                (quest) -> {
+                    if(quest == null) return;
+                    if(farm.unlinkQuest(quest)) {
+                        plugin.farmRegistry.save();
+                        plugin.tell(player, plugin.languageUtil.getString("quest_unlink_from_farm").replace("{farm}", farm.getId()));
+                        player.playSound(player.getLocation(), Sound.BLOCK_CHAIN_BREAK, 1f, 1f);
+                    }else {
+                        plugin.tell(player, plugin.languageUtil.getString("quest_already_not_linked_to_farm").replace("{farm}", farm.getId()));
+                    }
+                    new FarmEditorMenu(plugin).open(player, farm);
+                });
     }
 }

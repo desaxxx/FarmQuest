@@ -2,6 +2,7 @@ quests:
   '4a':
     name: Harvest Wheats
     description: Harvest 168 wheats in 150 seconds
+    icon: WHEAT
     objective:
       type: HARVEST
       farm_block: WHEAT
@@ -13,6 +14,7 @@ quests:
   'ml':
     name: Plant Potatoes
     description: Plant 64 potatoes in 50 seconds
+    icon: POTATO
     objective:
       type: PLANT
       farm_block: POTATOES
@@ -24,6 +26,7 @@ quests:
   'pz':
     name: Deliver Carrots
     description: Deliver 156 carrots in 180 seconds
+    icon: CARROT
     objective:
       type: DELIVER
       farm_block: CARROT

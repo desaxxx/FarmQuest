@@ -22,8 +22,8 @@ public class QuestCompleteEvent extends Event {
         return HANDLERS;
     }
 
-    private final Farmer farmer;
-    private final QuestProgress questProgress;
+    private final @NotNull Farmer farmer;
+    private final @NotNull QuestProgress questProgress;
 
     public QuestCompleteEvent(@NotNull Farmer farmer, @NotNull QuestProgress questProgress) {
         this.farmer = farmer;

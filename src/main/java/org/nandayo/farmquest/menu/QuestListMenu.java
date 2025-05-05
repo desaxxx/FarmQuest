@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.nandayo.dapi.ItemCreator;
 import org.nandayo.dapi.guimanager.Button;
 import org.nandayo.dapi.guimanager.Menu;
@@ -22,7 +23,7 @@ public class QuestListMenu extends Menu {
         this.plugin = plugin;
     }
 
-    public void open(@NotNull Player player, @NotNull Consumer<Quest> consumer) {
+    public void open(@NotNull Player player, @NotNull Consumer<@Nullable Quest> consumer) {
         this.createInventory(54, plugin.languageUtil.getString("menu.quest_list.title"));
 
         int slot = 0;
@@ -59,6 +60,8 @@ public class QuestListMenu extends Menu {
                 }
             });
         }
+
+        this.runOnClose(inv -> consumer.accept(null));
 
         this.displayTo(player);
     }

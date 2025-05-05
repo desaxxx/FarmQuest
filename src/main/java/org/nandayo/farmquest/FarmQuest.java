@@ -117,7 +117,7 @@ public final class FarmQuest extends JavaPlugin {
             Farmer.load(player.getUniqueId());
         }
 
-        languageUtil = new LanguageUtil(this, configRegistry.getConfig().getString("lang_file","en_US")); // TODO
+        languageUtil = new LanguageUtil(this, configRegistry.getConfig().getString("lang_file","en_US"));
     }
 
     /**
@@ -161,13 +161,8 @@ public final class FarmQuest extends JavaPlugin {
         min %= 60;
         hour %= 24;
 
-        StringBuilder sb = new StringBuilder();
-        if(hour >= 10) sb.append(hour); else sb.append(0).append(hour);
-        sb.append(":");
-        if(min >= 10) sb.append(min); else sb.append(0).append(min);
-        sb.append(":");
-        if(sec >= 10) sb.append(sec); else sb.append(0).append(sec);
-        return sb.toString().trim();
+        String str = String.format("%02d", hour) + ":" + String.format("%02d", min) + ":" + String.format("%02d", sec);
+        return str.trim();
     }
 
     /**

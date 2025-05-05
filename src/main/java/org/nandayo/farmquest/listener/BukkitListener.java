@@ -5,7 +5,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,16 +20,14 @@ import org.nandayo.dapi.model.Point;
 import org.nandayo.farmquest.FarmQuest;
 import org.nandayo.farmquest.enumeration.FarmBlock;
 import org.nandayo.farmquest.enumeration.Setting;
-import org.nandayo.farmquest.enumeration.VerticalGrowthType;
-import org.nandayo.farmquest.event.QuestProgressEvent;
-import org.nandayo.farmquest.model.BlockDataHolder;
+import org.nandayo.farmquest.event.FarmBlockBreakEvent;
+import org.nandayo.farmquest.event.FarmBlockPlaceEvent;
 import org.nandayo.farmquest.model.farm.Farm;
 import org.nandayo.farmquest.model.farm.FarmTool;
 import org.nandayo.farmquest.model.Farmer;
 import org.nandayo.farmquest.model.quest.Objective;
 import org.nandayo.farmquest.model.quest.QuestProgress;
 import org.nandayo.farmquest.util.MessageUtil;
-import org.nandayo.farmquest.util.FUtil;
 
 import java.util.Collection;
 
@@ -111,7 +108,6 @@ public class BukkitListener implements Listener {
         /* FARM REGION FROM HERE */
 
         Material blockType = block.getType();
-        boolean protecting = Setting.PROTECT_FARM_REGION.isEnabled() && !player.hasPermission("farmquest.protect.bypass");
         Farmer farmer = Farmer.getPlayer(player);
         FarmBlock farmBlock = FarmBlock.get(blockType);
         QuestProgress questProgress = farmer == null ? null : farmer.getActiveQuestProgress();
@@ -119,52 +115,15 @@ public class BukkitListener implements Listener {
         if(farmer == null || questProgress == null || objectiveType == null || !farm.getQuests().contains(questProgress.getQuest())
                 || !(objectiveType == Objective.ObjectiveType.HARVEST || objectiveType == Objective.ObjectiveType.DELIVER)
                 || farmBlock == null || !farmBlock.equals(questProgress.getQuest().getFarmBlock())) {
-            if(protecting) {
-                e.setCancelled(true);
-                MessageUtil.actionBar(player,"{WARN}This area is being protected!");
-            }
             return;
         }
 
-        if(player.getGameMode() == GameMode.CREATIVE) return; // No progress in creative mode.
+        FarmBlockBreakEvent farmBlockBreakEvent = new FarmBlockBreakEvent(farmer, block, farmBlock, farm, questProgress);
+        Bukkit.getScheduler().runTask(FarmQuest.getInstance(), () ->
+                Bukkit.getPluginManager().callEvent(farmBlockBreakEvent));
 
-        BlockDataHolder blockDataHolder = null;
-        int progress = 0;
-        boolean isRoot;
-
-        // Multi-block crops
-        VerticalGrowthType growthType = VerticalGrowthType.get(blockType);
-        if(growthType == null) {
-            isRoot = true;
-            if(FUtil.isReadyToHarvest(block.getBlockData())) progress++;
-        }else {
-            BlockFace face = growthType.getBlockFace();
-            isRoot = !farmBlock.equals(block.getRelative(face.getOppositeFace()).getType());
-            Block blockRelative = block;
-            while(farmBlock.equals(blockRelative.getType())) {
-                if(FUtil.isReadyToHarvest(blockRelative.getBlockData())) progress++;
-                blockRelative = blockRelative.getRelative(face);
-            }
-        }
-
-        // Save blockDataHolder if root.
-        if(isRoot) {
-            blockDataHolder = new BlockDataHolder(block);
-        }
-
-        if(progress > 0 && objectiveType == Objective.ObjectiveType.HARVEST) { // No progress in delivery objective.
-            final int finalProgress = progress;
-            Bukkit.getScheduler().runTask(FarmQuest.getInstance(), () ->
-                    Bukkit.getPluginManager().callEvent(new QuestProgressEvent(farmer, questProgress, finalProgress)));
-        }
-
-        if(Setting.AUTO_PLANT.isEnabled() && isRoot) {
-            final BlockDataHolder finalBdh = blockDataHolder;
-            Bukkit.getScheduler().runTaskLater(FarmQuest.getInstance(), () -> {
-                Block bdhBlock = finalBdh.getBlock();
-                if(!(block.getType().isAir() || block.getType() == Material.WATER)) return;
-                bdhBlock.setBlockData(finalBdh.getFormingBlockData());
-            }, 6*20L);
+        if(farmBlockBreakEvent.isCancelled()) {
+            e.setCancelled(true);
         }
     }
 
@@ -198,31 +157,17 @@ public class BukkitListener implements Listener {
         // FARM REGION FROM HERE
 
         Material blockType = block.getType();
-        boolean protecting = Setting.PROTECT_FARM_REGION.isEnabled() && !player.hasPermission("farmquest.protect.bypass");
         Farmer farmer = Farmer.getPlayer(player);
         FarmBlock farmBlock = FarmBlock.get(blockType);
         QuestProgress questProgress = farmer == null ? null : farmer.getActiveQuestProgress();
         if(farmer == null || questProgress == null || !farm.getQuests().contains(questProgress.getQuest())
                 || questProgress.getQuest().getType() != Objective.ObjectiveType.PLANT
                 || farmBlock == null || !farmBlock.equals(questProgress.getQuest().getFarmBlock())) {
-            if(protecting) {
-                e.setCancelled(true);
-                MessageUtil.actionBar(player,"{WARN}This area is being protected!");
-            }
             return;
         }
 
-        if(player.getGameMode() == GameMode.CREATIVE) return; // No progress in creative
-
         Bukkit.getScheduler().runTask(FarmQuest.getInstance(), () ->
-                Bukkit.getPluginManager().callEvent(new QuestProgressEvent(farmer, questProgress, 1)));
-
-        if(Setting.AUTO_REMOVE.isEnabled()) {
-            Bukkit.getScheduler().runTaskLater(FarmQuest.getInstance(), () -> {
-                if(block.getType() != blockType) return;
-                block.setType(Material.AIR);
-            }, 10*20L);
-        }
+                Bukkit.getPluginManager().callEvent(new FarmBlockPlaceEvent(farmer, block, farmBlock, farm, questProgress)));
     }
 
 

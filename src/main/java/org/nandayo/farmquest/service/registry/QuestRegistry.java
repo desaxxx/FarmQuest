@@ -1,10 +1,12 @@
 package org.nandayo.farmquest.service.registry;
 
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.nandayo.dapi.Util;
+import org.nandayo.dapi.object.DMaterial;
 import org.nandayo.farmquest.FarmQuest;
 import org.nandayo.farmquest.enumeration.FarmBlock;
 import org.nandayo.farmquest.model.quest.Objective;
@@ -36,6 +38,8 @@ public class QuestRegistry extends Registry {
         for(String id : quests.getKeys(false)) {
             String name = quests.getString(id + ".name", "Unknown");
             String description = quests.getString(id + ".description","Unknown");
+            DMaterial dIcon = DMaterial.getByName(quests.getString(id + ".icon", "PAPER"));
+            Material icon = dIcon.parseMaterial() == null ? Material.PAPER : dIcon.parseMaterial();
 
             Objective.ObjectiveType type = Objective.ObjectiveType.get(quests.getString(id + ".objective.type",""));
             FarmBlock farmBlock = FarmBlock.get(quests.getString(id + ".objective.farm_block",""));
@@ -65,7 +69,7 @@ public class QuestRegistry extends Registry {
                 }
             }
 
-            new Quest(id, name, description, type, farmBlock, targetAmount, timeLimit, rewards).register();
+            new Quest(type, farmBlock, targetAmount, timeLimit, rewards, id, name, description, icon).register();
         }
         Util.log("Loaded " + Quest.getRegisteredQuests().size() + " quests.");
     }
@@ -78,6 +82,7 @@ public class QuestRegistry extends Registry {
             String namespace = "quests." + quest.getId();
             config.set(namespace + ".name", quest.getName());
             config.set(namespace + ".description", quest.getDescription());
+            config.set(namespace + ".icon", quest.getIcon().toString());
             config.set(namespace + ".objective.type", quest.getType().toString());
             config.set(namespace + ".objective.farm_block", quest.getFarmBlock().toString());
             config.set(namespace + ".objective.target_amount", quest.getTargetAmount());

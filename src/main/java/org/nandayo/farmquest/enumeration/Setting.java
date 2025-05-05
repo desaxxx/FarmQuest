@@ -9,7 +9,8 @@ public enum Setting {
 
     AUTO_PLANT,
     AUTO_REMOVE,
-    // TODO AUTO_PICKUP,
+    // TODO
+    //AUTO_PICKUP,
     PROTECT_FARMLAND,
     PROTECT_FARM_REGION;
 

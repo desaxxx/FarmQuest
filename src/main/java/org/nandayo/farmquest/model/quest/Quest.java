@@ -18,20 +18,21 @@ public class Quest extends Objective {
     // objective
     // timer
     private final @NotNull String id;
-    private final String name;
-    private final String description;
+    private final @NotNull String name;
+    private final @NotNull String description;
+    private final @NotNull Material icon;
 
-    public Quest(@NotNull String id, @NotNull String name, @NotNull String description,
-                 @NotNull ObjectiveType type, @NotNull FarmBlock farmBlock, int targetAmount,
-                 long timeLimit, @NotNull Collection<Reward> rewards) {
+    public Quest(@NotNull ObjectiveType type, @NotNull FarmBlock farmBlock, int targetAmount, long timeLimit, @NotNull Collection<Reward> rewards,
+                 @NotNull String id, @NotNull String name, @NotNull String description, @NotNull Material icon) {
         super(type, farmBlock, targetAmount, timeLimit, rewards);
         this.id = id;
         this.name = name;
         this.description = description;
+        this.icon = icon;
     }
-    public Quest(@NotNull String name, @NotNull String description,
-                 @NotNull ObjectiveType type, @NotNull FarmBlock farmBlock, int targetAmount, long timeLimit, @NotNull Collection<Reward> rewards) {
-        this(Util.generateRandomLowerCaseString(2), name, description, type, farmBlock, targetAmount, timeLimit,  rewards);
+    public Quest(@NotNull ObjectiveType type, @NotNull FarmBlock farmBlock, int targetAmount, long timeLimit, @NotNull Collection<Reward> rewards,
+                 @NotNull String name, @NotNull String description, @NotNull Material icon) {
+        this(type, farmBlock, targetAmount, timeLimit,  rewards, Util.generateRandomLowerCaseString(2), name, description, icon);
     }
 
     public void register() {
