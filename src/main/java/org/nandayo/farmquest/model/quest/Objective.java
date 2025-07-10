@@ -45,7 +45,7 @@ public class Objective {
     public enum ObjectiveType {
         HARVEST("Harvest", Material.IRON_HOE),
         PLANT("Plant", Material.FLOWER_POT),
-        DELIVER("Deliver", Material.BROWN_BUNDLE),
+        DELIVER("Deliver", Material.BUNDLE),
         ;
 
         ObjectiveType(String displayName, Material icon) {

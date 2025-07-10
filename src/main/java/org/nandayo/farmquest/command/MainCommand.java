@@ -50,7 +50,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String @NotNull [] args) {
         if(args.length == 1) {
             List<String> completions = new ArrayList<>(List.of("deliver","farmer"));
-            for(String arg : Arrays.asList("farmmarker","createregion","resizeregion","deleteregion","createquest","editquest","reload","farmmanager","items","removecompleted")) {
+            for(String arg : Arrays.asList("farmmarker","createregion","resizeregion","deleteregion","createquest","editquest","reload","farmmanager","removecompleted")) {
                 if(sender.hasPermission("farmquest." + arg)) completions.add(arg);
             }
             return completions;
