@@ -122,11 +122,9 @@ public class BukkitListener implements Listener {
         }
 
         FarmBlockBreakEvent farmBlockBreakEvent = new FarmBlockBreakEvent(farmer, block, block.getBlockData().clone(), farmBlock, farm, questProgress);
-        Bukkit.getScheduler().runTask(FarmQuest.getInstance(), () ->
-                Bukkit.getPluginManager().callEvent(farmBlockBreakEvent));
+        Bukkit.getPluginManager().callEvent(farmBlockBreakEvent);
 
         if(farmBlockBreakEvent.isCancelled()) {
-            Util.log("Debug, its cancelled");
             e.setCancelled(true);
             return;
         }

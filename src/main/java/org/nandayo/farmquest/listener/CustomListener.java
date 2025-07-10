@@ -53,7 +53,6 @@ public class CustomListener implements Listener {
             isRoot = true;
             if(FUtil.isReadyToHarvest(blockData)) progress++;
         }else {
-            Util.log("Debug, growth type is not null");
             BlockFace face = growthType.getBlockFace();
             isRoot = !farmBlock.equals(block.getRelative(face.getOppositeFace()).getType());
             Block blockRelative = block;
