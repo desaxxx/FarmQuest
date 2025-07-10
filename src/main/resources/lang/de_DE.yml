@@ -1,6 +1,6 @@
 # Platzhalter-Namen und Schlüssel-Namen dürfen nicht geändert werden. Alle anderen Teile dürfen bearbeitet werden.
 # FarmQuest verwendet eigene Farben: {TITLE}, {STAR}, {WHITE}, {WARN}, {SUCCESS}.
-#   Du kannst auch eigene Farben verwenden, z. B. &a, <#000000>
+#   Du kannst auch eigene Farben verwenden, z.B. &a, <#000000>
 quest_complete: "{WHITE}Du hast die Quest '{quest}' abgeschlossen."
 win_farm_tool: "{SUCCESS}Ein Farmwerkzeug erhalten!"
 have_active_quest: "{WARN}Du hast bereits eine aktive Quest!"
@@ -15,10 +15,13 @@ not_a_farmer_player_other: "{WARN}Spieler '{player}' ist kein Farmer-Spieler."
 farms_empty: "{WARN}Felder sind leer oder noch nicht geladen."
 quest_does_not_belong_farm: "{WARN}Deine Quest gehört nicht zur Farm '{farm}'"
 not_enough_materials: "{WARN}Du hast nicht genügend Materialien."
+quest_created: "{SUCCESS}Quest wurde erfolgreich erstellt!"
+quest_not_created: "{WARN}Quest konnte nicht erstellt werden!"
 quest_linked_to_farm: "{SUCCESS}Quest wurde mit der Farm '{farm}' verknüpft."
 quest_already_linked_to_farm: "{WARN}Quest ist bereits mit der Farm '{farm}' verknüpft."
 quest_unlink_from_farm: "{SUCCESS}Quest wurde von der Farm '{farm}' entfernt."
 quest_already_not_linked_to_farm: "{WARN}Quest ist bereits nicht mit der Farm '{farm}' verknüpft."
+quest_was_deleted: "{WARN}Die Quest wurde von einem Admin gelöscht."
 get_farm_tool_from_menu: "{WARN}Du hast das Farmwerkzeug '{tool}' erhalten."
 select_1st_point: "{WHITE}Erster Punkt ausgewählt. [{x},{y},{z}]"
 select_2nd_point: "{WHITE}Zweiter Punkt ausgewählt. [{x},{y},{z}]"
@@ -31,12 +34,12 @@ command:
   no_perm: "{WARN}Du hast keine Berechtigung für diesen Befehl."
   player_not_found: "{WARN}Spieler '{player}' wurde nicht gefunden!"
   farm_not_found: "{WARN}Farm '{farm}' wurde nicht gefunden!"
-  tool_not_found: "{WARN}Werkzeug '{tool}' wurde nicht gefunden!"
+  quest_not_found: "{WARN}Die Quest '{quest}' wurde nicht gefunden!"
   deliver:
     quest_not_delivery: "{WARN}Deine Quest ist keine Liefer quest."
   create_region:
     missing_points: "{WARN}Dir fehlen Auswahlpunkte."
-    invalid_id: "{WARN}Du musst eine ID eingeben, die [a-z0-9]{8} entspricht."
+    invalid_id: "{WARN}Du musst eine ID eingeben, die [a-z0-9] entspricht und 8 Zeichen lang ist."
     already_exists: "{WARN}Farm mit der ID '{id}' existiert bereits."
     success: "{SUCCESS}Farm wurde mit der ID '{id}' erstellt."
   resize_region:
@@ -47,62 +50,18 @@ command:
     does_not_exist: "{WARN}Farm mit der ID '{id}' existiert nicht."
     confirm_info: "{WARN}Diese Aktion führt dazu, dass Spieler ihre aktuellen Quests von dieser Farm verlieren. Bitte bestätige mit dem Befehl '/farmquest deleteregion {farm} confirm'."
     success: "{SUCCESS}Farm '{id}' wurde gelöscht!"
+  create_quest:
+    already_exists: "{WARN}Eine Quest mit der ID '{id}' existiert bereits."
+    invalid_id: "{WARN}Du musst eine ID eingeben, die [a-z0-9] entspricht und 2 Zeichen lang ist."
+  edit_quest:
+    missing_id: "{WARN}Bitte gib eine Quest-ID ein!"
   farm_marker:
     get_marker: "{SUCCESS}Du hast den Farm-Marker erhalten."
-  items:
-    open: "{SUCCESS}Item-Menü geöffnet."
   reload:
     success: "{SUCCESS}Konfigurationen wurden neu geladen!"
   remove_completed:
     not_completed: "{WARN}Dieser Spieler hat die Quest nicht abgeschlossen!"
     success: "{SUCCESS}Quest wurde aus den abgeschlossenen Quests von Spieler '{player}' entfernt!"
 #
-menu:
-  farm_editor:
-    title: "&8Farm-Editor ({WHITE}{farm}&8)"
-    region:
-      name: "{TITLE}Region: {WHITE}{region}"
-    linked_quests:
-      name: "{TITLE}&nVerknüpfte Quests"
-      lore:
-        - ""
-        - " {STAR}* {WHITE}{quest.%n}"
-        - ""
-        - "{WHITE}Linksklick zum Hinzufügen einer Quest."
-        - "{WHITE}Rechtsklick zum Entfernen einer Quest."
-  farmer_menu:
-    title: "&8Farmer-Menü"
-    pickup:
-      name: "{TITLE}Quest annehmen"
-      lore:
-        - "{WHITE}Klicke, um Quests zu sehen!"
-    delivery:
-      name: "{TITLE}Liefern"
-      lore:
-        - "{WHITE}Klicke hier, um Materialien zu liefern!"
-    drop:
-      name: "{TITLE}Quest abbrechen"
-      lore:
-        - "&cKlicke, um abzubrechen!"
-    sub_quest_list:
-      title: "&8Quest-Liste"
-      quest:
-        name: "{TITLE}Quest {WHITE} '{quest}'"
-        lore:
-          - " {STAR}* &7{quest_description}"
-          - ""
-          - "{WHITE}Klicke, um anzunehmen!"
-  items:
-    title: "&8FarmQuest-Items"
-    tool_extra_lore:
-      - ""
-      - "{WHITE}Klicke zum Erhalten!"
-  quest_list:
-    title: "&8Quest-Liste | Wähle eine"
-    quest:
-      name: "{TITLE}Quest {WHITE} '{quest}'"
-      lore:
-        - "{TITLE}Name: {WHITE}{quest_name}"
-        - "{TITLE}Beschreibung: {WHITE}{quest_description}"
-#
+
 lang_version: "0" # DO NOT CHANGE

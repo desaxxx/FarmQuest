@@ -19,14 +19,14 @@ public class BlockDataHolder {
     private Block block;
     private final BlockData formingBlockData;
 
-    public BlockDataHolder(final @NotNull Block block) {
+    public BlockDataHolder(final @NotNull Block block, final @NotNull BlockData blockData) {
         this.block = block;
-        if(block.getBlockData() instanceof Bisected bisected) {
+        if(blockData instanceof Bisected bisected) {
             if(bisected.getHalf() == Bisected.Half.TOP) {
                 this.block = this.block.getRelative(BlockFace.DOWN);
             }
         }
-        this.formingBlockData = BlockAdapter.findAdapterGetData(this.block.getBlockData().clone());
+        this.formingBlockData = BlockAdapter.findAdapterGetData(blockData.clone());
     }
 
 
@@ -36,6 +36,7 @@ public class BlockDataHolder {
             if(!(oldData instanceof CaveVinesPlant caveVinesPlant)) return oldData;
             BlockData newData = Material.CAVE_VINES.createBlockData();
             if(newData instanceof CaveVinesPlant caveVinesPlant1) {
+                //noinspection deprecation
                 caveVinesPlant1.setBerries(caveVinesPlant.isBerries());
             }
             if(newData instanceof Ageable ageable) {

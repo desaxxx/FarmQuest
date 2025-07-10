@@ -1,9 +1,0 @@
-tools:
-  rookie_hoe:
-    name: "<#9c7965>Rookie Hoe"
-    item:
-      material: WOODEN_HOE
-      display_name: "<#9c7965>Rookie Hoe"
-      lore:
-        - "&7Drops extra 1 loot by <#de8d41>10% chance&7."
-      unbreakable: true

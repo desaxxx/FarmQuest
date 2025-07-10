@@ -31,7 +31,7 @@ public class FarmerMenuCommand extends SubCommand {
             return true;
         }
 
-        new FarmerMenu(plugin, farm).open(player);
+        new FarmerMenu(plugin, player, farm);
         return true;
     }
 }

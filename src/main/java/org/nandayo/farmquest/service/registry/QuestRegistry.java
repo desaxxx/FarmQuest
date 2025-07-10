@@ -11,6 +11,7 @@ import org.nandayo.farmquest.FarmQuest;
 import org.nandayo.farmquest.enumeration.FarmBlock;
 import org.nandayo.farmquest.model.quest.Objective;
 import org.nandayo.farmquest.model.quest.Quest;
+import org.nandayo.farmquest.model.quest.QuestProperty;
 import org.nandayo.farmquest.model.quest.Reward;
 
 import java.io.IOException;
@@ -55,21 +56,17 @@ public class QuestRegistry extends Registry {
             }
 
             Collection<Reward> rewards = new ArrayList<>();
-            ConfigurationSection rewardSection = quests.getConfigurationSection(id + ".rewards");
-            if(rewardSection != null) {
-                for(String rewardKey : rewardSection.getKeys(false)) {
-                    Reward.RewardType rewardType = Reward.RewardType.get(rewardKey);
-                    if(rewardType == null) {
-                        Util.log("{WARN}RewardType for Quest '" + id + "' is null.");
-                        continue;
-                    }
-                    List<String> run = rewardSection.getStringList(rewardKey);
-
-                    rewards.add(new Reward(rewardType, run));
-                }
+            for(Reward.RewardType rewardType : Reward.RewardType.values()) {
+                String rewardNamespace = id + ".rewards." + rewardType.name();
+                List<String> run = quests.getStringList(rewardNamespace);
+                rewards.add(new Reward(rewardType, run));
+            }
+            QuestProperty questProperty = new QuestProperty();
+            for(QuestProperty.Property property : questProperty.values()) {
+                property.setEnabled(quests.getBoolean(id + ".property." + property.getString(),false));
             }
 
-            new Quest(type, farmBlock, targetAmount, timeLimit, rewards, id, name, description, icon).register();
+            new Quest(type, farmBlock, targetAmount, timeLimit, rewards, questProperty, id, name, description, icon).register();
         }
         Util.log("Loaded " + Quest.getRegisteredQuests().size() + " quests.");
     }
@@ -87,6 +84,14 @@ public class QuestRegistry extends Registry {
             config.set(namespace + ".objective.farm_block", quest.getFarmBlock().toString());
             config.set(namespace + ".objective.target_amount", quest.getTargetAmount());
             config.set(namespace + ".objective.time_limit", quest.getTimeLimit());
+            for(Reward.RewardType rewardType : Reward.RewardType.values()) {
+                Reward reward = quest.getReward(rewardType);
+                if(reward == null) continue;
+                config.set(namespace + ".rewards." + rewardType.name(), reward.getRun());
+            }
+            for(QuestProperty.Property property : quest.getQuestProperty().values()) {
+                config.set(namespace + ".property." + property.getString(), property.isEnabled());
+            }
         }
         try {
             config.save(getFile());

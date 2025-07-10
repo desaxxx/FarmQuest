@@ -1,0 +1,142 @@
+menus:
+  farm_editor:
+    title: "&8Farm-Editor ({WHITE}{farm}&8)"
+    region:
+      name: "{TITLE}Region: {WHITE}{region}"
+    linked_quests:
+      name: "{TITLE}&nVerknüpfte Quests"
+      lore:
+        - ""
+        - " {STAR}* {WHITE}{quest.%n}"
+        - ""
+        - "{WHITE}Linksklick, um eine Quest hinzuzufügen."
+        - "{WHITE}Rechtsklick, um eine Quest zu entfernen."
+
+  farmer_menu:
+    title: "&8Farmer-Menü"
+    pickup:
+      name: "{TITLE}Quest annehmen"
+      lore:
+        - "{WHITE}Klicke, um Quests zu sehen!"
+    delivery:
+      name: "{TITLE}Liefern"
+      lore:
+        - "{WHITE}Klicke hier, um Materialien zu liefern!"
+    drop:
+      name: "{TITLE}Quest abbrechen"
+      lore:
+        - "&cKlicke, um abzubrechen!"
+    sub_quest_list:
+      title: "&8Quest-Liste"
+      quest:
+        name: "{TITLE}Quest {WHITE}'{quest}'"
+        lore:
+          - " {STAR}* &7{quest_description}"
+          - ""
+          - "{WHITE}Klicke, um anzunehmen!"
+
+  quest_list:
+    title: "&8Quest-Liste | Wähle eine"
+    quest:
+      name: "{TITLE}Quest {WHITE}'{quest}'"
+      lore:
+        - "{TITLE}Name: {WHITE}{quest_name}"
+        - "{TITLE}Beschreibung: {WHITE}{quest_description}"
+        - "{TITLE}{property_name}: {WHITE}{property_state}"
+    previous:
+      name: "&cVorherige Seite"
+    next:
+      name: "&aNächste Seite"
+
+  quest_creator:
+    title: "&8Quest-Erstellungsmenü ({id})"
+    objective_type:
+      name: "{TITLE}Zieltyp ({objective_type})"
+      lore:
+        - ""
+        - "{WHITE}Klicken, um Zieltyp zu bearbeiten!"
+    farm_block:
+      name: "{TITLE}Farmblock ({farm_block} x{target_amount})"
+      lore:
+        - ""
+        - "{WHITE}Linksklick, um Farmblock zu bearbeiten!"
+        - "{WHITE}Rechtsklick, um Zielmenge zu bearbeiten!"
+        - "{WHITE}Shift-Rechtsklick, um Quest-Symbol zurückzusetzen!"
+        - "{WHITE}Klicke ein Item in deinem Inventar, um es als Symbol zu setzen!"
+      anvil_title: "Zielmenge eingeben"
+    time_limit:
+      name: "{TITLE}Zeitlimit ({time_limit})"
+      lore:
+        - ""
+        - "{WHITE}Klicken, um Zeitlimit zu bearbeiten!"
+      anvil_title: "Zeitlimit eingeben"
+    rewards:
+      name: "{TITLE}Belohnungen"
+      lore:
+        - ""
+        - "{STAR}* {WHITE}{reward_line}"
+        - ""
+        - "{WHITE}Linksklick, um Befehlsbelohnungen zu bearbeiten!"
+        - "{WHITE}Rechtsklick, um Farmwerkzeug-Belohnungen zu bearbeiten!"
+    properties:
+      name: "{TITLE}Eigenschaften"
+      lore:
+        - ""
+        - "{TITLE}{property_name}: {WHITE}{property_state}"
+        - ""
+        - "{WHITE}Klicken, um zu bearbeiten!"
+    name:
+      name: "{TITLE}Name ({name})"
+      lore:
+        - ""
+        - "{WHITE}Klicken, um den Namen zu bearbeiten!"
+      anvil_title: "Name eingeben"
+    description:
+      name: "{TITLE}Beschreibung"
+      lore:
+        - "{WHITE}{description}"
+        - ""
+        - "{WHITE}Klicken, um die Beschreibung zu bearbeiten!"
+      anvil_title: "Beschreibung eingeben"
+    save:
+      name: "{TITLE}Speichern"
+
+  objective_type_selector:
+    title: "&8Zieltyp-Auswahl"
+    objective_type:
+      name: "{TITLE}{objective_type}"
+      lore:
+        - ""
+        - "{WHITE}Klicken, um diesen Typ zu wählen!"
+
+  farm_block_selector:
+    title: "&8Farmblock-Auswahl"
+    farm_block:
+      name: "{TITLE}{farm_block}"
+      lore:
+        - ""
+        - "{WHITE}Klicken, um diesen Farmblock zu wählen!"
+
+  reward_manager:
+    title: "&8Belohnungsmanager"
+    reward_line:
+      name: "{TITLE}Zeile #{order}"
+      lore:
+        - ""
+        - "{TITLE}{reward_line}"
+        - "{WHITE}Shift-Rechtsklick, um diese Belohnungszeile zu entfernen!"
+    new:
+      name: "{WHITE}Klicke, um eine Belohnungszeile hinzuzufügen!"
+      anvil_title: "Belohnungszeile eingeben"
+    back:
+      name: "{TITLE}Zurück"
+
+  property_editor:
+    title: "&8Eigenschafts-Editor"
+    property:
+      name: "{TITLE}{property_name} {property_state}"
+      lore:
+        - ""
+        - "{WHITE}Klicken, um umzuschalten!"
+    back:
+      name: "{TITLE}Zurück"

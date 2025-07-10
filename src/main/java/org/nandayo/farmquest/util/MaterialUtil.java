@@ -49,6 +49,22 @@ public class MaterialUtil {
         }
     }
 
+    static public void removeItemStack(@NotNull Player player, @NotNull ItemStack itemStack) {
+        int remaining = Math.max(0, itemStack.getAmount());
+        for(ItemStack item : player.getInventory().getContents()) {
+            if (item != null && item.isSimilar(itemStack)) {
+                int itemAmount = item.getAmount();
+                if (itemAmount <= remaining) {
+                    remaining -= itemAmount;
+                    item.setAmount(0);
+                }else {
+                    item.setAmount(itemAmount - remaining);
+                    break;
+                }
+            }
+        }
+    }
+
     static public void giveMaterials(@NotNull Player player, @NotNull Material material, int amount) {
         int maxStackSize = material.getMaxStackSize();
         while (amount > 0) {

@@ -11,6 +11,9 @@ quests:
     rewards:
       COMMAND:
         - "eco give %player_name% 100"
+#    property:
+#      no_block_drops: true
+#      remove_extra_materials: true
   'ml':
     name: Plant Potatoes
     description: Plant 64 potatoes in 50 seconds

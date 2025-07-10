@@ -2,6 +2,7 @@ package org.nandayo.farmquest.event;
 
 import lombok.Getter;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -26,15 +27,17 @@ public class FarmBlockPlaceEvent extends Event implements Cancellable {
 
     private final @NotNull Farmer farmer;
     private final @NotNull Block block;
+    private final @NotNull BlockData blockData;
     private final @NotNull FarmBlock farmBlock;
     private final @NotNull Farm farm;
     private final @NotNull QuestProgress questProgress;
 
     private boolean cancelled;
 
-    public FarmBlockPlaceEvent(@NotNull Farmer farmer, @NotNull Block block, @NotNull FarmBlock farmBlock, @NotNull Farm farm, @NotNull QuestProgress questProgress) {
+    public FarmBlockPlaceEvent(@NotNull Farmer farmer, @NotNull Block block, @NotNull BlockData blockData, @NotNull FarmBlock farmBlock, @NotNull Farm farm, @NotNull QuestProgress questProgress) {
         this.farmer = farmer;
         this.block = block;
+        this.blockData = blockData;
         this.farmBlock = farmBlock;
         this.farm = farm;
         this.questProgress = questProgress;

@@ -1,0 +1,142 @@
+menus:
+  farm_editor:
+    title: "&8Çiftlik Düzenleyici ({WHITE}{farm}&8)"
+    region:
+      name: "{TITLE}Bölge: {WHITE}{region}"
+    linked_quests:
+      name: "{TITLE}&nBağlı Görevler"
+      lore:
+        - ""
+        - " {STAR}* {WHITE}{quest.%n}"
+        - ""
+        - "{WHITE}Görev eklemek için sol tıkla."
+        - "{WHITE}Görev silmek için sağ tıkla."
+
+  farmer_menu:
+    title: "&8Çiftçi Menüsü"
+    pickup:
+      name: "{TITLE}Görev Al"
+      lore:
+        - "{WHITE}Görevleri görmek için tıkla!"
+    delivery:
+      name: "{TITLE}Teslim Et"
+      lore:
+        - "{WHITE}Malzemeleri teslim etmek için buraya tıkla!"
+    drop:
+      name: "{TITLE}Görevi Bırak"
+      lore:
+        - "&cBırakmak için tıkla!"
+    sub_quest_list:
+      title: "&8Görev Listesi"
+      quest:
+        name: "{TITLE}Görev {WHITE}'{quest}'"
+        lore:
+          - " {STAR}* &7{quest_description}"
+          - ""
+          - "{WHITE}Almak için tıkla!"
+
+  quest_list:
+    title: "&8Görev Listesi | Birini Seç"
+    quest:
+      name: "{TITLE}Görev {WHITE}'{quest}'"
+      lore:
+        - "{TITLE}Ad: {WHITE}{quest_name}"
+        - "{TITLE}Açıklama: {WHITE}{quest_description}"
+        - "{TITLE}{property_name}: {WHITE}{property_state}"
+    previous:
+      name: "&cÖnceki Sayfa"
+    next:
+      name: "&aSonraki Sayfa"
+
+  quest_creator:
+    title: "&8Görev Oluşturma Menüsü ({id})"
+    objective_type:
+      name: "{TITLE}Hedef Türü ({objective_type})"
+      lore:
+        - ""
+        - "{WHITE}Hedef türünü düzenlemek için tıkla!"
+    farm_block:
+      name: "{TITLE}Çiftlik Bloğu ({farm_block} x{target_amount})"
+      lore:
+        - ""
+        - "{WHITE}Çiftlik bloğunu düzenlemek için sol tıkla!"
+        - "{WHITE}Hedef sayıyı düzenlemek için sağ tıkla!"
+        - "{WHITE}Görev simgesini sıfırlamak için shift + sağ tık!"
+        - "{WHITE}Görev simgesi olarak kullanmak için envanterinden bir eşya tıkla!"
+      anvil_title: "Hedef miktarı girin"
+    time_limit:
+      name: "{TITLE}Süre Sınırı ({time_limit})"
+      lore:
+        - ""
+        - "{WHITE}Süre sınırını düzenlemek için tıkla!"
+      anvil_title: "Süre sınırı girin"
+    rewards:
+      name: "{TITLE}Ödüller"
+      lore:
+        - ""
+        - "{STAR}* {WHITE}{reward_line}"
+        - ""
+        - "{WHITE}Komut ödüllerini düzenlemek için sol tık!"
+        - "{WHITE}Çiftlik aracı ödüllerini düzenlemek için sağ tık!"
+    properties:
+      name: "{TITLE}Özellikler"
+      lore:
+        - ""
+        - "{TITLE}{property_name}: {WHITE}{property_state}"
+        - ""
+        - "{WHITE}Düzenlemek için tıkla!"
+    name:
+      name: "{TITLE}Ad ({name})"
+      lore:
+        - ""
+        - "{WHITE}Adı düzenlemek için tıkla!"
+      anvil_title: "Bir ad girin"
+    description:
+      name: "{TITLE}Açıklama"
+      lore:
+        - "{WHITE}{description}"
+        - ""
+        - "{WHITE}Açıklamayı düzenlemek için tıkla!"
+      anvil_title: "Bir açıklama girin"
+    save:
+      name: "{TITLE}Kaydet"
+
+  objective_type_selector:
+    title: "&8Hedef Türü Seçici"
+    objective_type:
+      name: "{TITLE}{objective_type}"
+      lore:
+        - ""
+        - "{WHITE}Bu türü seçmek için tıkla!"
+
+  farm_block_selector:
+    title: "&8Çiftlik Bloğu Seçici"
+    farm_block:
+      name: "{TITLE}{farm_block}"
+      lore:
+        - ""
+        - "{WHITE}Bu çiftlik bloğunu seçmek için tıkla!"
+
+  reward_manager:
+    title: "&8Ödül Yöneticisi"
+    reward_line:
+      name: "{TITLE}Satır #{order}"
+      lore:
+        - ""
+        - "{TITLE}{reward_line}"
+        - "{WHITE}Bu ödül satırını silmek için shift + sağ tık!"
+    new:
+      name: "{WHITE}Yeni bir ödül satırı eklemek için tıkla!"
+      anvil_title: "Bir ödül satırı girin"
+    back:
+      name: "{TITLE}Geri"
+
+  property_editor:
+    title: "&8Özellik Düzenleyici"
+    property:
+      name: "{TITLE}{property_name} {property_state}"
+      lore:
+        - ""
+        - "{WHITE}Aç/kapa yapmak için tıkla!"
+    back:
+      name: "{TITLE}Geri"

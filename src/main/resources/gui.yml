@@ -1,0 +1,142 @@
+menus:
+  farm_editor:
+    title: "&8Farm Editor ({WHITE}{farm}&8)"
+    region:
+      name: "{TITLE}Region: {WHITE}{region}"
+    linked_quests:
+      name: "{TITLE}&nLinked Quests"
+      lore:
+        - ""
+        - " {STAR}* {WHITE}{quest.%n}"
+        - ""
+        - "{WHITE}Left click to add a quest."
+        - "{WHITE}Right click to remove a quest."
+
+  farmer_menu:
+    title: "&8Farmer Menu"
+    pickup:
+      name: "{TITLE}Pickup a Quest"
+      lore:
+        - "{WHITE}Click to see quests!"
+    delivery:
+      name: "{TITLE}Deliver"
+      lore:
+        - "{WHITE}Click here to deliver materials!"
+    drop:
+      name: "{TITLE}Drop the Quest"
+      lore:
+        - "&cClick to drop!"
+    sub_quest_list:
+      title: "&8Quest List"
+      quest:
+        name: "{TITLE}Quest {WHITE} '{quest}'"
+        lore:
+          - " {STAR}* &7{quest_description}"
+          - ""
+          - "{WHITE}Click to pickup!"
+
+  quest_list:
+    title: "&8Quest List | Choose One"
+    quest:
+      name: "{TITLE}Quest {WHITE} '{quest}'"
+      lore:
+        - "{TITLE}Name: {WHITE}{quest_name}"
+        - "{TITLE}Description: {WHITE}{quest_description}"
+        - "{TITLE}{property_name}: {WHITE}{property_state}"
+    previous:
+      name: "&cPrevious Page"
+    next:
+      name: "&aNext Page"
+
+  quest_creator:
+    title: "&8Quest Creator Menu ({id})"
+    objective_type:
+      name: "{TITLE}Objective Type ({objective_type})"
+      lore:
+        - ""
+        - "{WHITE}Click to edit objective type!"
+    farm_block:
+      name: "{TITLE}Farm Block ({farm_block} x{target_amount})"
+      lore:
+        - ""
+        - "{WHITE}Left click to edit farm block!"
+        - "{WHITE}Right click to edit target amount!"
+        - "{WHITE}Shift right click to reset quest icon!"
+        - "{WHITE}Click an item on your inventory to set as quest icon!"
+      anvil_title: "Enter target amount"
+    time_limit:
+      name: "{TITLE}Time limit ({time_limit})"
+      lore:
+        - ""
+        - "{WHITE}Click to edit time limit!"
+      anvil_title: "Enter time limit"
+    rewards:
+      name: "{TITLE}Rewards"
+      lore:
+        - ""
+        - "{STAR}* {WHITE}{reward_line}"
+        - ""
+        - "{WHITE}Left click to edit command rewards!"
+        - "{WHITE}Right click to edit farm tool rewards!"
+    properties:
+      name: "{TITLE}Properties"
+      lore:
+        - ""
+        - "{TITLE}{property_name}: {WHITE}{property_state}"
+        - ""
+        - "{WHITE}Click to edit!"
+    name:
+      name: "{TITLE}Name ({name})"
+      lore:
+        - ""
+        - "{WHITE}Click to edit name!"
+      anvil_title: "Enter a name"
+    description:
+      name: "{TITLE}Description"
+      lore:
+        - "{WHITE}{description}"
+        - ""
+        - "{WHITE}Click to edit description!"
+      anvil_title: "Enter a description"
+    save:
+      name: "{TITLE}Save"
+
+  objective_type_selector:
+    title: "&8Objective Type Selector"
+    objective_type:
+      name: "{TITLE}{objective_type}"
+      lore:
+        - ""
+        - "{WHITE}Click to select this type!"
+
+  farm_block_selector:
+    title: "&8Farm Block Selector"
+    farm_block:
+      name: "{TITLE}{farm_block}"
+      lore:
+        - ""
+        - "{WHITE}Click to select this farm block!"
+
+  reward_manager:
+    title: "&8Reward Manager"
+    reward_line:
+      name: "{TITLE}Line #{order}"
+      lore:
+        - ""
+        - "{TITLE}{reward_line}"
+        - "{WHITE}Shift right click to remove this reward line!"
+    new:
+      name: "{WHITE}Click to add a reward line!"
+      anvil_title: "Enter a reward line"
+    back:
+      name: "{TITLE}Back"
+
+  property_editor:
+    title: "&8Property Editor"
+    property:
+      name: "{TITLE}{property_name} {property_state}"
+      lore:
+        - ""
+        - "{WHITE}Click to toggle!"
+    back:
+      name: "{TITLE}Back"

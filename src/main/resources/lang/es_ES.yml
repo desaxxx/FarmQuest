@@ -15,10 +15,13 @@ not_a_farmer_player_other: "{WARN}El jugador '{player}' no es un granjero."
 farms_empty: "{WARN}Las granjas están vacías o aún no se han cargado."
 quest_does_not_belong_farm: "{WARN}Tu misión no pertenece a la Granja '{farm}'"
 not_enough_materials: "{WARN}No tienes suficientes materiales."
+quest_created: "{SUCCESS}¡La misión se ha creado con éxito!"
+quest_not_created: "{WARN}¡No se pudo crear la misión!"
 quest_linked_to_farm: "{SUCCESS}La misión ha sido vinculada a la Granja '{farm}'."
 quest_already_linked_to_farm: "{WARN}La misión ya está vinculada a la Granja '{farm}'."
 quest_unlink_from_farm: "{SUCCESS}La misión ha sido desvinculada de la Granja '{farm}'."
 quest_already_not_linked_to_farm: "{WARN}La misión ya no está vinculada a la Granja '{farm}'."
+quest_was_deleted: "{WARN}La misión fue eliminada por un administrador."
 get_farm_tool_from_menu: "{WARN}Has recibido la herramienta de granja '{tool}'."
 select_1st_point: "{WHITE}Has seleccionado el primer punto. [{x},{y},{z}]"
 select_2nd_point: "{WHITE}Has seleccionado el segundo punto. [{x},{y},{z}]"
@@ -31,12 +34,12 @@ command:
   no_perm: "{WARN}No tienes permiso para usar este comando."
   player_not_found: "{WARN}¡Jugador '{player}' no fue encontrado!"
   farm_not_found: "{WARN}¡Granja '{farm}' no fue encontrada!"
-  tool_not_found: "{WARN}¡Herramienta '{tool}' no fue encontrada!"
+  quest_not_found: "{WARN}No se encontró la misión '{quest}'!"
   deliver:
     quest_not_delivery: "{WARN}Tu misión no es una de entrega."
   create_region:
     missing_points: "{WARN}Faltan puntos de selección."
-    invalid_id: "{WARN}Debes ingresar un ID que coincida con [a-z0-9]{8}."
+    invalid_id: "{WARN}Debes ingresar un ID que coincida con [a-z0-9] y tenga 8 caracteres de longitud."
     already_exists: "{WARN}La granja con ID '{id}' ya existe."
     success: "{SUCCESS}Se creó la granja con ID '{id}'"
   resize_region:
@@ -47,62 +50,18 @@ command:
     does_not_exist: "{WARN}La granja con ID '{id}' no existe."
     confirm_info: "{WARN}Esta acción hará que los jugadores pierdan sus misiones actuales de esta granja. Por favor, confírmalo con el comando '/farmquest deleteregion {farm} confirm'."
     success: "{SUCCESS}¡Granja '{id}' eliminada!"
+  create_quest:
+    already_exists: "{WARN}Ya existe una misión con el ID '{id}'."
+    invalid_id: "{WARN}Debes ingresar un ID que coincida con [a-z0-9] y tenga 2 caracteres de longitud."
+  edit_quest:
+    missing_id: "{WARN}¡Por favor, ingresa un ID de misión!"
   farm_marker:
     get_marker: "{SUCCESS}Has recibido el marcador de granja."
-  items:
-    open: "{SUCCESS}Has abierto el menú de objetos."
   reload:
     success: "{SUCCESS}¡Las configuraciones han sido recargadas!"
   remove_completed:
     not_completed: "{WARN}¡Este jugador no ha completado la misión!"
     success: "{SUCCESS}Se eliminó la misión de la lista de misiones completadas del jugador '{player}'!"
 #
-menu:
-  farm_editor:
-    title: "&8Editor de Granja ({WHITE}{farm}&8)"
-    region:
-      name: "{TITLE}Región: {WHITE}{region}"
-    linked_quests:
-      name: "{TITLE}&nMisiones Vinculadas"
-      lore:
-        - ""
-        - " {STAR}* {WHITE}{quest.%n}"
-        - ""
-        - "{WHITE}Clic izquierdo para añadir una misión."
-        - "{WHITE}Clic derecho para eliminar una misión."
-  farmer_menu:
-    title: "&8Menú de Granjero"
-    pickup:
-      name: "{TITLE}Tomar una Misión"
-      lore:
-        - "{WHITE}¡Haz clic para ver las misiones!"
-    delivery:
-      name: "{TITLE}Entregar"
-      lore:
-        - "{WHITE}¡Haz clic aquí para entregar materiales!"
-    drop:
-      name: "{TITLE}Abandonar la Misión"
-      lore:
-        - "&c¡Haz clic para abandonar!"
-    sub_quest_list:
-      title: "&8Lista de Misiones"
-      quest:
-        name: "{TITLE}Misión {WHITE} '{quest}'"
-        lore:
-          - " {STAR}* &7{quest_description}"
-          - ""
-          - "{WHITE}¡Haz clic para tomarla!"
-  items:
-    title: "&8Objetos de FarmQuest"
-    tool_extra_lore:
-      - ""
-      - "{WHITE}¡Haz clic para obtenerlo!"
-  quest_list:
-    title: "&8Lista de Misiones | Elige una"
-    quest:
-      name: "{TITLE}Misión {WHITE} '{quest}'"
-      lore:
-        - "{TITLE}Nombre: {WHITE}{quest_name}"
-        - "{TITLE}Descripción: {WHITE}{quest_description}"
 
 lang_version: "0" # DO NOT CHANGE

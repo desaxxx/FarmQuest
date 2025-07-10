@@ -2,55 +2,53 @@ package org.nandayo.farmquest.model.quest;
 
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.nandayo.dapi.Util;
-import org.nandayo.farmquest.FarmQuest;
-import org.nandayo.farmquest.model.farm.FarmTool;
 import org.nandayo.farmquest.model.Farmer;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 @Getter
 public class Reward {
 
-    private final RewardType type;
-    private final List<String> run;
+    private final @NotNull RewardType type;
+    private @NotNull List<String> run;
 
     public Reward(@NotNull RewardType type, @NotNull List<String> run) {
         this.type = type;
-        this.run = run;
+        this.run = new ArrayList<>(run);
+    }
+
+    public void setRun(@NotNull List<String> run) {
+        this.run = new ArrayList<>(run);
     }
 
     public void grant(@NotNull Farmer farmer) {
-        Player player = farmer.getOfflinePlayer().getPlayer();
-        if(player == null) return;
+        if(farmer.getPlayer().isEmpty()) return;
 
-        switch (type) {
-            case COMMAND:
-                for(String cmd : run) {
-                    String fixedCmd = cmd.replace("%player_name%", player.getName()).trim();
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), fixedCmd);
-                }
-                break;
-
-            case FARM_TOOL:
-                for(String farmToolId : run) {
-                    FarmTool tool = FarmTool.getTool(farmToolId);
-                    if(tool == null) {
-                        Util.log(FarmQuest.getInstance().languageUtil.getString("tool_not_found").replace("{tool}", farmToolId));
-                        continue;
-                    }
-                    player.getInventory().addItem(tool.getItem());
-                    farmer.tell(FarmQuest.getInstance().languageUtil.getString("win_farm_tool"));
-                }
-                break;
+        Player player = farmer.getPlayer().get();
+        if (type == RewardType.COMMAND) {
+            for (String cmd : run) {
+                String fixedCmd = cmd.replace("%player_name%", player.getName()).trim();
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), fixedCmd);
+            }
         }
     }
 
+    @Getter
     public enum RewardType {
-        COMMAND,FARM_TOOL;
+        COMMAND(Material.COMMAND_BLOCK_MINECART),
+        FARM_TOOL(Material.GOLDEN_HOE);
+
+        RewardType(Material icon) {
+            this.icon = icon;
+        }
+
+        private final Material icon;
+
 
         static public RewardType get(@NotNull String name) {
             try {

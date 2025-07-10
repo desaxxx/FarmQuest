@@ -5,7 +5,9 @@ import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.nandayo.dapi.Util;
+import org.nandayo.farmquest.FarmQuest;
 import org.nandayo.farmquest.enumeration.FarmBlock;
+import org.nandayo.farmquest.model.Farmer;
 import org.nandayo.farmquest.model.farm.Farm;
 
 import java.time.Instant;
@@ -15,32 +17,78 @@ import java.util.Collection;
 @Getter
 public class Quest extends Objective {
 
-    // objective
-    // timer
     private final @NotNull String id;
     private final @NotNull String name;
     private final @NotNull String description;
-    private final @NotNull Material icon;
+    private @Nullable Material icon;
 
-    public Quest(@NotNull ObjectiveType type, @NotNull FarmBlock farmBlock, int targetAmount, long timeLimit, @NotNull Collection<Reward> rewards,
-                 @NotNull String id, @NotNull String name, @NotNull String description, @NotNull Material icon) {
-        super(type, farmBlock, targetAmount, timeLimit, rewards);
+    public Quest(@NotNull ObjectiveType type, @NotNull FarmBlock farmBlock, int targetAmount, long timeLimit, @NotNull Collection<Reward> rewards, @NotNull QuestProperty questProperty,
+                 @NotNull String id, @NotNull String name, @NotNull String description, @Nullable Material icon) {
+        super(type, farmBlock, targetAmount, timeLimit, rewards, questProperty);
         this.id = id;
         this.name = name;
         this.description = description;
         this.icon = icon;
     }
-    public Quest(@NotNull ObjectiveType type, @NotNull FarmBlock farmBlock, int targetAmount, long timeLimit, @NotNull Collection<Reward> rewards,
-                 @NotNull String name, @NotNull String description, @NotNull Material icon) {
-        this(type, farmBlock, targetAmount, timeLimit,  rewards, Util.generateRandomLowerCaseString(2), name, description, icon);
+    public Quest(@NotNull ObjectiveType type, @NotNull FarmBlock farmBlock, int targetAmount, long timeLimit, @NotNull Collection<Reward> rewards, @NotNull QuestProperty questProperty,
+                 @NotNull String name, @NotNull String description, @Nullable Material icon) {
+        this(type, farmBlock, targetAmount, timeLimit,  rewards, questProperty,
+                Util.generateRandomLowerCaseString(2), name, description, icon);
     }
 
     public void register() {
-        if(getQuest(id) == null) {
-            registeredQuests.add(this);
-        }else {
-            Util.log(String.format("{WARN}Quest with id '%s' was already registered.", id));
+        if(getQuest(id) == null) registeredQuests.add(this);
+    }
+
+    public void unregister() {
+        registeredQuests.remove(this);
+        questDeletion();
+    }
+
+    public void questDeletion() {
+        // Make farmers who are progressing this quest drop it.
+        for(Farmer farmer : Farmer.getPlayers()) {
+            QuestProgress questProgress = farmer.getActiveQuestProgress();
+            if(questProgress == null || !questProgress.getQuest().equals(this)) continue;
+
+            farmer.dropQuest(false);
+            farmer.tell(FarmQuest.getInstance().languageUtil.getString("quest_was_deleted"));
         }
+
+        // Unlink the quest from farms
+        for(Farm farm : Farm.getRegisteredFarms()) {
+            if(!farm.getQuests().contains(this)) continue;
+            farm.getQuests().remove(this);
+        }
+    }
+
+    public void replaceWith(@NotNull Quest quest) {
+        registeredQuests.remove(this);
+        quest.register();
+
+        // Make farmers who are progressing this quest drop it.
+        for(Farmer farmer : Farmer.getPlayers()) {
+            QuestProgress questProgress = farmer.getActiveQuestProgress();
+            if(questProgress == null || !questProgress.getQuest().equals(this)) continue;
+
+            farmer.dropQuest(false);
+            farmer.tell(FarmQuest.getInstance().languageUtil.getString("quest_was_deleted"));
+        }
+
+        // Replace the quest in farms with new quest.
+        for(Farm farm : Farm.getRegisteredFarms()) {
+            if(!farm.getQuests().contains(this)) continue;
+            farm.getQuests().remove(this);
+            farm.getQuests().add(quest);
+        }
+    }
+
+    public @NotNull Material getIcon() {
+        return icon != null ? icon : getFarmBlock().getSeedMaterial();
+    }
+
+    public void setIcon(@Nullable Material icon) {
+        this.icon = icon == null || !icon.isItem() ? null : icon;
     }
 
     /**
@@ -74,16 +122,5 @@ public class Quest extends Objective {
         return registeredQuests.stream()
                 .filter(q -> q.getId().equals(id))
                 .findFirst().orElse(null);
-    }
-
-    /**
-     * Get Quest from id.
-     * @param id Id
-     * @return Quest
-     */
-    static public Quest getQuestOrThrow(@NotNull String id) {
-        Quest quest = getQuest(id);
-        if(quest != null) return quest;
-        else throw new NullPointerException("Quest is null.");
     }
 }

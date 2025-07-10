@@ -15,10 +15,13 @@ not_a_farmer_player_other: "{WARN}Oyuncu '{player}' çiftlik oyuncusu değil."
 farms_empty: "{WARN}Çiftlikler boş veya henüz yüklenmedi."
 quest_does_not_belong_farm: "{WARN}Görevin Çiftlik '{farm}'e ait değil."
 not_enough_materials: "{WARN}Yeterince materyale sahip değilsin."
+quest_created: "{SUCCESS}Görev başarıyla oluşturuldu!"
+quest_not_created: "{WARN}Görev oluşturulamadı!"
 quest_linked_to_farm: "{SUCCESS}Görev Çiftlik '{farm}'e tanındı."
 quest_already_linked_to_farm: "{WARN}Görev zaten Çiftlik '{farm}'e tanımlı."
 quest_unlink_from_farm: "{SUCCESS}Görev Çiftlik '{farm}'den koparıldı."
 quest_already_not_linked_to_farm: "{WARN}Görev zaten Çiftlik '{farm}'a tanımlı değil."
+quest_was_deleted: "{WARN}Görev bir yönetici tarafından silindi."
 get_farm_tool_from_menu: "{WARN}Çiftlik Eşyası '{tool}' aldın."
 select_1st_point: "{WHITE}1'inci noktayı seçtin. [{x},{y},{z}]"
 select_2nd_point: "{WHITE}2'nci noktayı seçtin. [{x},{y},{z}]"
@@ -31,12 +34,12 @@ command:
   no_perm: "{WARN}Bu komutu kullanmak için yetkin yok."
   player_not_found: "{WARN}Oyuncu '{player}' bulunamadı!"
   farm_not_found: "{WARN}Çiftlik '{farm}' bulunamadı!"
-  tool_not_found: "{WARN}Eşya '{tool}' bulunamadı!"
+  quest_not_found: "{WARN}Görev '{quest}' bulunamadı!"
   deliver:
     quest_not_delivery: "{WARN}Görevin teslim etmek değil."
   create_region:
     missing_points: "{WARN}Eksik seçilmiş noktaların var."
-    invalid_id: "{WARN}[a-z0-9]{8} kalıbına uygun bir id seçmelisin."
+    invalid_id: "{WARN}[a-z0-9] ile eşleşen ve uzunluğu 2 olan uygun bir id girmelisin."
     already_exists: "{WARN}Çiftlik '{id}' zaten bulunuyor."
     success: "{SUCCESS}Çiftlik '{id}' oluşturuldu."
   resize_region:
@@ -47,62 +50,18 @@ command:
     does_not_exist: "{WARN}Çiftlik '{id}' bulunmuyor."
     confirm_info: "{WARN}Bu eylem oyuncuların bu çiftlikten olan aktif görevlerini bırakmalarına neden olacak. Lütfen bu komutla doğrulayın: '/farmquest deleteregion {farm} confirm'."
     success: "{SUCCESS}Çiftlik '{id}' kaldırıldı!"
+  create_quest:
+    already_exists: "{WARN}Görev '{id}' zaten bulunuyor."
+    invalid_id: "{WARN}[a-z0-9] ile eşleşen ve uzunluğu 2 olan uygun bir id girmelisin."
+  edit_quest:
+    missing_id: "{WARN}Lütfen bir görev id'si girin!"
   farm_marker:
     get_marker: "{SUCCESS}Çiftlik İşaretleyici alındı."
-  items:
-    open: "{SUCCESS}Eşyalar menüsü açıldı."
   reload:
     success: "{SUCCESS}Konfigurasyon yenilendi!"
   remove_completed:
     not_completed: "{WARN}Bu oyuncu görevi tamamlamamış!"
     success: "{SUCCESS}Görev oyuncu '{player}'in tamamlanmış görevlerinden kaldırıldı!"
 #
-menu:
-  farm_editor:
-    title: "&8Çiftlik Editör ({WHITE}{farm}&8)"
-    region:
-      name: "{TITLE}Alan: {WHITE}{region}"
-    linked_quests:
-      name: "{TITLE}&nTanımlı Görevler"
-      lore:
-        - ""
-        - " {STAR}* {WHITE}{quest.%n}"
-        - ""
-        - "{WHITE}Görev eklemek için sol tıkla."
-        - "{WHITE}Görev çıkarmak için sağ tıkla."
-  farmer_menu:
-    title: "&8Çiftçi Menüsü"
-    pickup:
-      name: "{TITLE}Görev Al"
-      lore:
-        - "{WHITE}Görevleri görmek için tıkla!"
-    delivery:
-      name: "{TITLE}Teslim Et"
-      lore:
-        - "{WHITE}Materyalleri teslim etmek için tıkla!"
-    drop:
-      name: "{TITLE}Görevi Bırak"
-      lore:
-        - "&cBırakmak için tıkla!"
-    sub_quest_list:
-      title: "&8Görev Listesi"
-      quest:
-        name: "{TITLE}Görev {WHITE} '{quest}'"
-        lore:
-          - " {STAR}* &7{quest_description}"
-          - ""
-          - "{WHITE}Almak için tıkla!"
-  items:
-    title: "&8FarmQuest Eşyalari"
-    tool_extra_lore:
-      - ""
-      - "{WHITE}Almak için tıkla!"
-  quest_list:
-    title: "&8Görev Listesi | Seçim"
-    quest:
-      name: "{TITLE}Görev {WHITE} '{quest}'"
-      lore:
-        - "{TITLE}Ad: {WHITE}{quest_name}"
-        - "{TITLE}Açıklama: {WHITE}{quest_description}"
 
 lang_version: "0" # DEĞİŞTİRMEYİN

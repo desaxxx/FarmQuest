@@ -1,0 +1,142 @@
+menus:
+  farm_editor:
+    title: "&8Editor de Granja ({WHITE}{farm}&8)"
+    region:
+      name: "{TITLE}Región: {WHITE}{region}"
+    linked_quests:
+      name: "{TITLE}&nMisiones Vinculadas"
+      lore:
+        - ""
+        - " {STAR}* {WHITE}{quest.%n}"
+        - ""
+        - "{WHITE}Clic izquierdo para añadir una misión."
+        - "{WHITE}Clic derecho para eliminar una misión."
+
+  farmer_menu:
+    title: "&8Menú del Granjero"
+    pickup:
+      name: "{TITLE}Aceptar una Misión"
+      lore:
+        - "{WHITE}¡Haz clic para ver misiones!"
+    delivery:
+      name: "{TITLE}Entregar"
+      lore:
+        - "{WHITE}Haz clic aquí para entregar materiales."
+    drop:
+      name: "{TITLE}Abandonar la Misión"
+      lore:
+        - "&c¡Haz clic para abandonar!"
+    sub_quest_list:
+      title: "&8Lista de Misiones"
+      quest:
+        name: "{TITLE}Misión {WHITE}'{quest}'"
+        lore:
+          - " {STAR}* &7{quest_description}"
+          - ""
+          - "{WHITE}Haz clic para aceptar."
+
+  quest_list:
+    title: "&8Lista de Misiones | Elige una"
+    quest:
+      name: "{TITLE}Misión {WHITE}'{quest}'"
+      lore:
+        - "{TITLE}Nombre: {WHITE}{quest_name}"
+        - "{TITLE}Descripción: {WHITE}{quest_description}"
+        - "{TITLE}{property_name}: {WHITE}{property_state}"
+    previous:
+      name: "&cPágina Anterior"
+    next:
+      name: "&aPágina Siguiente"
+
+  quest_creator:
+    title: "&8Menú de Creación de Misión ({id})"
+    objective_type:
+      name: "{TITLE}Tipo de Objetivo ({objective_type})"
+      lore:
+        - ""
+        - "{WHITE}Haz clic para editar el tipo de objetivo."
+    farm_block:
+      name: "{TITLE}Bloque de Granja ({farm_block} x{target_amount})"
+      lore:
+        - ""
+        - "{WHITE}Clic izquierdo para editar el bloque de granja."
+        - "{WHITE}Clic derecho para editar la cantidad objetivo."
+        - "{WHITE}Shift clic derecho para reiniciar el ícono de misión."
+        - "{WHITE}Haz clic en un objeto en tu inventario para usarlo como ícono."
+      anvil_title: "Introduce la cantidad objetivo"
+    time_limit:
+      name: "{TITLE}Límite de Tiempo ({time_limit})"
+      lore:
+        - ""
+        - "{WHITE}Haz clic para editar el límite de tiempo."
+      anvil_title: "Introduce el límite de tiempo"
+    rewards:
+      name: "{TITLE}Recompensas"
+      lore:
+        - ""
+        - "{STAR}* {WHITE}{reward_line}"
+        - ""
+        - "{WHITE}Clic izquierdo para editar recompensas de comandos."
+        - "{WHITE}Clic derecho para editar recompensas de herramientas."
+    properties:
+      name: "{TITLE}Propiedades"
+      lore:
+        - ""
+        - "{TITLE}{property_name}: {WHITE}{property_state}"
+        - ""
+        - "{WHITE}Haz clic para editar."
+    name:
+      name: "{TITLE}Nombre ({name})"
+      lore:
+        - ""
+        - "{WHITE}Haz clic para editar el nombre."
+      anvil_title: "Introduce un nombre"
+    description:
+      name: "{TITLE}Descripción"
+      lore:
+        - "{WHITE}{description}"
+        - ""
+        - "{WHITE}Haz clic para editar la descripción."
+      anvil_title: "Introduce una descripción"
+    save:
+      name: "{TITLE}Guardar"
+
+  objective_type_selector:
+    title: "&8Selector de Tipo de Objetivo"
+    objective_type:
+      name: "{TITLE}{objective_type}"
+      lore:
+        - ""
+        - "{WHITE}Haz clic para seleccionar este tipo."
+
+  farm_block_selector:
+    title: "&8Selector de Bloque de Granja"
+    farm_block:
+      name: "{TITLE}{farm_block}"
+      lore:
+        - ""
+        - "{WHITE}Haz clic para seleccionar este bloque de granja."
+
+  reward_manager:
+    title: "&8Administrador de Recompensas"
+    reward_line:
+      name: "{TITLE}Línea #{order}"
+      lore:
+        - ""
+        - "{TITLE}{reward_line}"
+        - "{WHITE}Shift clic derecho para eliminar esta línea de recompensa."
+    new:
+      name: "{WHITE}Haz clic para añadir una línea de recompensa."
+      anvil_title: "Introduce una línea de recompensa"
+    back:
+      name: "{TITLE}Volver"
+
+  property_editor:
+    title: "&8Editor de Propiedades"
+    property:
+      name: "{TITLE}{property_name} {property_state}"
+      lore:
+        - ""
+        - "{WHITE}Haz clic para alternar."
+    back:
+      name: "{TITLE}Volver"

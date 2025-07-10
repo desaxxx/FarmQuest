@@ -3,6 +3,7 @@ package org.nandayo.farmquest.model.quest;
 import lombok.Getter;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.nandayo.farmquest.FarmQuest;
 import org.nandayo.farmquest.model.farm.Farm;
 
@@ -11,11 +12,11 @@ import java.time.Instant;
 @Getter
 public class QuestProgress {
 
-    private final Quest quest;
-    private final Farm farm;
+    private final @NotNull Quest quest;
+    private final @NotNull Farm farm;
     private int progress;
     private final long startTime;
-    private BukkitRunnable tickingTask = null;
+    private @Nullable BukkitRunnable tickingTask = null;
 
     public QuestProgress(@NotNull Quest quest, @NotNull Farm farm, int progress, long startTime) {
         this.quest = quest;

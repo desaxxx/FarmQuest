@@ -13,18 +13,25 @@ import java.util.Locale;
 @Getter
 public class Objective {
 
-    private final ObjectiveType type;
-    private final FarmBlock farmBlock;
+    private final @NotNull ObjectiveType type;
+    private final @NotNull FarmBlock farmBlock;
     private final int targetAmount;
     private final long timeLimit;
-    private final Collection<Reward> rewards;
+    private final @NotNull Collection<Reward> rewards;
+    private final @NotNull QuestProperty questProperty;
 
-    public Objective(@NotNull ObjectiveType type, @NotNull FarmBlock farmBlock, int targetAmount, long timeLimit, @NotNull Collection<Reward> rewards) {
+    public Objective(@NotNull ObjectiveType type, @NotNull FarmBlock farmBlock, int targetAmount, long timeLimit, @NotNull Collection<Reward> rewards, @NotNull QuestProperty questProperty) {
         this.type = type;
         this.farmBlock = farmBlock;
         this.targetAmount = targetAmount;
         this.timeLimit = timeLimit;
         this.rewards = rewards;
+        this.questProperty = questProperty;
+    }
+
+    @Nullable
+    public Reward getReward(@NotNull Reward.RewardType type) {
+        return rewards.stream().filter(r -> r.getType().equals(type)).findFirst().orElse(null);
     }
 
     public void grantRewards(@NotNull Farmer farmer) {
@@ -36,16 +43,18 @@ public class Objective {
 
     @Getter
     public enum ObjectiveType {
-        HARVEST("Harvest"),
-        PLANT("Plant"),
-        DELIVER("Deliver"),
+        HARVEST("Harvest", Material.IRON_HOE),
+        PLANT("Plant", Material.FLOWER_POT),
+        DELIVER("Deliver", Material.BROWN_BUNDLE),
         ;
 
-        ObjectiveType(String displayName) {
+        ObjectiveType(String displayName, Material icon) {
             this.displayName = displayName;
+            this.icon = icon;
         }
 
         private final String displayName;
+        private final Material icon;
 
         @Nullable
         static public ObjectiveType get(@NotNull String name) {

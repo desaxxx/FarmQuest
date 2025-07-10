@@ -35,7 +35,7 @@ public class FarmManagerCommand extends SubCommand {
             return true;
         }
 
-        new FarmEditorMenu(plugin).open(player, farm);
+        new FarmEditorMenu(player, farm);
         return true;
     }
 }
