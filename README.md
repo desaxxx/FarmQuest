@@ -1,5 +1,6 @@
 # Farm-Quest
 FarmQuest is a lightweight farming quest plugin for servers. Give your players purpose and rewards as they complete objectives, and become master farmers!
+[![](https://img.shields.io/badge/Powered_with-DAPI-5B9AB5?style=flat&labelColor=345869)](https://github.com/desaxxx/DAPI/)
 
 ## Download Links
 - [Spigot](https://www.spigotmc.org/resources/farmquest.124581/)
